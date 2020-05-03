@@ -20,6 +20,7 @@
     if($_GET["func"] == "koef_kzm"){
         echo getKzm($dbc, $data);
     }
+    
     if($_GET["func"] == "v_transfer"){
         echo getW($dbc, $data);
     }

@@ -1,5 +1,5 @@
-async function getDataFromDB(funcName, data) {
-    let url = `../../router/dbrouter.php?func=${funcName}`;
+async function workWithBD(funcName, router, data) {
+    let url = `../../router/${router}.php?func=${funcName}`;
     let response = await fetch(url, {
         method: 'POST',
         headers: {
