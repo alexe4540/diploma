@@ -3,15 +3,16 @@ async function workWIthMap(coordinates, scale, sizes, angle) {
     let longitude = coordinates.longitude;
     let semiaxisA = (sizes[0] / 2) * 1000;
     let semiaxisB = (sizes[1] / 2) * 1000;
-    
+
     map.setView([latitude, longitude], scale);
 
     let promise = new Promise((resolve, reject) => {
-        setTimeout(() => resolve("готово!"), 100)
-    });    
+        setTimeout(() => resolve("готово!"), 1000)
+    });
     let result = await promise;
 
     goFunc(latitude, longitude, scale, semiaxisA, semiaxisB, angle);
+
 }
 
 const map = L.map('map').setView([0, 0], 2);
@@ -23,23 +24,64 @@ L.control.scale().addTo(map);
 function goFunc(latitude, longitude, scale, semiaxisA, semiaxisB, angle) {
     html2canvas(document.querySelector("#map"), {
         allowTaint: true,
+        useCORS: true,
     }).then(function (canvas) {
         let cnvs = document.querySelector("canvas");
         if (cnvs) cnvs.remove();
+        canvas.id = 'canvas';
+        drawOnMap(canvas, latitude, longitude, scale, semiaxisA, semiaxisB, angle);
         document.body.appendChild(canvas);
-        drawOnMap(latitude, longitude, scale, semiaxisA, semiaxisB, angle);
-    });
+        let data = getData();
+        let rgba = unitArrayToREguralArray(data);
+
+        let ctx = canvas.getContext('2d');
+        ctx.putImageData(data, 0, 0);
+        console.log('length: ', rgba, 'data: ', data)
+    })
 };
 
-function drawOnMap(latitude, longitude, scale, semiaxisA, semiaxisB, angle) {
-    let canvas = document.querySelector('canvas');
+//TODO придумать как посчитать пиксели внетри круга
+
+
+function unitArrayToREguralArray(unitArray){
+    let regularArray = [];
+    let rgbaArray = [];
+
+    for(let i = 0; i < unitArray.data.length; i+=4){
+        regularArray.push([unitArray.data[i],unitArray.data[i+1], unitArray.data[i+2], unitArray.data[i+3]]);
+    }
+
+    let counter = 0;
+
+    for (let i = 0; i < unitArray.height; i++){
+        let tmpArray = [];
+        for (let j = 0; j < unitArray.width; j++){
+            tmpArray.push(regularArray[j+counter]);
+        }
+        rgbaArray.push(tmpArray);
+        counter += unitArray.width;
+    }
+
+    return rgbaArray;
+}
+
+function getData() {
+    let c = document.getElementById("canvas");
+    let ctx = c.getContext("2d");
+
+    return ctx.getImageData(0, 0, c.width, c.height);
+}
+
+function drawOnMap(canvas, latitude, longitude, scale, semiaxisA, semiaxisB, angle) {
     let ctx = canvas.getContext('2d');
 
     let sPixelA = pixelValue(latitude, semiaxisA, scale);
-    let sPixelB = pixelValue(longitude, semiaxisB, scale);
+    let sPixelB = pixelValue(latitude, semiaxisB, scale);
 
     ctx.lineWidth = 5;
     drawEllipse(ctx, [canvas.width / 2, canvas.height / 2], [sPixelA, sPixelB], angle);
+
+    return ;
 }
 
 function metersPerPixel(latitude, zoomLevel) {

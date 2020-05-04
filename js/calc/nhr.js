@@ -1,10 +1,10 @@
 const   routerName = "dbrouter",
         nhrType = "хлорпікрин", //        тип НХР                         c формы
-        nhrQuantity = 70, //            количество НХР                  с формы
+        nhrQuantity = 100, //            количество НХР                  с формы
         height = 1, //                  высота обвалования              с формы
         temperature = 20, //            температура воздуха             с апихи погоды
         windSpeed = 4, //               скорость ветра                  с апихи погоды
-        windAzimut = 270, //            угол/азимут ветра               с апихи погоды
+        windAzimut = 0, //            угол/азимут ветра               с апихи погоды
         accidentTime = '12:00', //      время аварии                    с формы/автоматом
         cloudiness = "напівясно", //    облачность                      с апихи погоды
         place = { //                    инфа о местности                с формы
@@ -64,7 +64,9 @@ console.log(nhrType, nhrQuantity, height, temperature, windSpeed, windAzimut, ac
         const squarePredictedZone = getSquarePredictedZone(K, forecastDeptZone, N); //Площа прогнозованої зони хімічного забруднення (ПЗХЗ) 
         console.log("tut14` ", squarePredictedZone);
 
-        workWIthMap({latitude: 50.8774569, longitude: 34.88522929}, 13, [forecastDeptZone, widthForecastZone], windAzimut);
+        console.log('метров в пикселе: ', metersPerPixel(50.8774569, 12))
+
+        workWIthMap({latitude: 50.8774569, longitude: 34.88522929}, 12, [forecastDeptZone, widthForecastZone], windAzimut);
 
         //moveToCoordinates(50.8774569, 34.88522929, 12);
 })();

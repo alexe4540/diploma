@@ -15,11 +15,12 @@
         //TODO : форма для ввода входных данных
 
     ?>
-
+    
     <script src="/js/getters/localGetter.js"></script>
     <script src="/js/getters/serverGetter.js"></script>
     <script src="/js/helpers/drawEllipse.js"></script>
     <script src="/js/calc/workWIthMap.js"></script>
+    <script src="/js/calc/getDataFromCanvas.js"></script>
     <script src="/js/lib/html2canvas.min.js"></script>
     <script src="/js/calc/nhr.js"></script>
 </body>

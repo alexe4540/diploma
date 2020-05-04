@@ -16,7 +16,7 @@ function drawEllipse(ctx, coords, sizes, angle) {
     ctx.scale(1, sizes[1] / sizes[0]); // сжимаем по вертикали
     ctx.arc(0, 0, sizes[0], 0, Math.PI * 2); // рисуем круг
     ctx.restore(); // восстанавливает стейт, иначе обводка и заливка будут сплющенными и повёрнутыми
-    ctx.strokeStyle = 'green';
+    ctx.strokeStyle = 'red';
     ctx.stroke(); // обводим
     ctx.closePath();
 }
