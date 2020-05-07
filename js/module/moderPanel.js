@@ -5,6 +5,7 @@ add.addEventListener('click', async () => {
         longitude = document.querySelector('input[name=longitude]'),
         latitude = document.querySelector('input[name=latitude]'),
         wcount = document.querySelector('input[name=wcount]'),
+        city = document.querySelector('input[name=city]'),
         msg = document.querySelector('#msg');
 
     msg.textContent = '';
@@ -12,10 +13,11 @@ add.addEventListener('click', async () => {
     longitude.className = '';
     latitude.className = '';
     wcount.className = '';
+    city.className = '';
 
-    if (validate({oname, longitude, latitude, wcount}, msg)) return null;
+    if (validate({oname, longitude, latitude, wcount, city}, msg)) return null;
 
-    let successInsert = await workWithBD('insert', 'moderRouter', {oname: oname.value, longitude: longitude.value, latitude: latitude.value, wcount: wcount.value});
+    let successInsert = await workWithBD('insert', 'moderRouter', {oname: oname.value, longitude: longitude.value, latitude: latitude.value, wcount: wcount.value, city: city.value});
     
     if (successInsert){
         msg.textContent = 'Дані успішно додано!';
@@ -29,6 +31,7 @@ add.addEventListener('click', async () => {
     longitude.value = '';
     latitude.value = '';
     wcount.value = '';
+    city.value = '';
     
     return;
 })

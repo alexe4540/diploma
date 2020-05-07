@@ -5,7 +5,7 @@ function getValueFromForm(idElment){
 function getTimeOfDay(time){
     let accidentTime = time.slice(0, 2);
 
-    return  accidentTime < 7 || accidentTime > 23 ? "Ніч" : "День";
+    return  accidentTime < 7 || accidentTime > 21 ? "Ніч" : "День";
 };
 
 function getDeptDecr(placeLeng, kzm){
@@ -67,4 +67,32 @@ function getK(degreeOfVerticalStability){
 
 function getSquarePredictedZone(K, forecastDeptZone, N){
     return +(K * Math.pow(forecastDeptZone, 2) * Math.pow(N, 0.2)).toFixed(2); 
+}
+
+function getPeopleLoss(countOfPeople, percent){
+    const totalLoss = ((countOfPeople * percent) / 100).toFixed(0);
+    const lightSeverity = ((totalLoss * 25) / 100).toFixed(0);
+    const moderateSeverity = ((totalLoss * 40) / 100).toFixed(0);
+    const death = ((totalLoss * 35) / 100).toFixed(0);
+    
+    return {totalLoss, lightSeverity, moderateSeverity, death}
+ }
+
+ function getSqrt(meterperPixel, countOfPixelInZone, zoneLength){
+    return Math.pow((zoneLength * meterperPixel) / 1000, 2) * (countOfPixelInZone/Math.pow(zoneLength, 2));
+ }
+
+ function getPeopleLossDamage(lossObj){
+     let svtpp = 0.28 * lossObj.lightSeverity + 6.5 * lossObj.moderateSeverity + 47 * lossObj.death;
+     let svdp  = 4.1 * lossObj.death;
+
+     return svtpp + svdp;
+ }
+
+function getAgricultureDamage(fieldSqrt, productivity, avg_cost){
+    return (fieldSqrt) * 0.5 * productivity * (avg_cost / 1000);
+}
+
+function getForestDamage(forestSqrt, forestNormDamage){
+    return 0.5 *  1.53 * forestSqrt * forestNormDamage;
 }

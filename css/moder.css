@@ -1,43 +1,9 @@
-.error-msg {
-    padding: 14px;
-    background-color: #F44336;
-    color: white;
-}
-
 .success-msg {
     padding: 14px;
     background-color: green;
     color: white;
 }
 
-.form-container {
-    margin: 5% auto 15%;
-    /* 5% from the top, 15% from the bottom and centered */
-    border: 1px solid #888;
-    padding: 20px;
-    width: 400px;
-}
-
-input[type=text],
-input[type=number] {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0 25px;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
-
-input.error-input{
-    background-color: #fce4e4;
-    border: 1px solid #cc0033;
-    outline: none;
-}
-
-#msg {
-    text-align: center;
-    margin: 8px 0 25px;
-}
 
 @media screen and (max-width: 500px) {
     .form-container{

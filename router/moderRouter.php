@@ -9,8 +9,9 @@
         $longitude = $data['longitude'];
         $latitude = $data['latitude'];
         $wcount = $data['wcount'];
+        $city = $data['city'];
 
-        $insertResult = mysqli_query($dbc, "INSERT INTO factory (fname, longitude, latitude, wcount) VALUES ('" . $oname . "','" . $longitude . "','" . $latitude . "','" . $wcount . "')");
+        $insertResult = mysqli_query($dbc, "INSERT INTO factory (fname, longitude, latitude, wcount, city) VALUES ('" . $oname . "','" . $longitude . "','" . $latitude . "','" . $wcount . "','" . $city . "')");
 
         echo $insertResult;
     }

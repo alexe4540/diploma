@@ -24,5 +24,19 @@
     if($_GET["func"] == "v_transfer"){
         echo getW($dbc, $data);
     }
-
     
+    if($_GET["func"] == "pollution_duration"){
+        echo getPollutionDuration($dbc, $data);
+    }
+
+    if($_GET["func"] == "population_loss"){
+        echo getPopulationLoss($dbc, $data);
+    }
+    
+    if($_GET["func"] == "agriculture"){
+        echo getAgriculture($dbc, $data);
+    }
+
+    if($_GET["func"] == "factory"){
+        echo getFactory($dbc, $data);
+    }

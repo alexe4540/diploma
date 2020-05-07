@@ -1,13 +1,8 @@
 function drawEllipse(ctx, coords, sizes, angle) {
     angle = (angle - 90) * Math.PI / 180;
 
-    ctx.beginPath();
-    ctx.fillRect(coords[0], coords[1], 2, 2);
-    ctx.arc(coords[0], coords[1], sizes[1] / 4, 0, Math.PI * 2);
-    ctx.strokeStyle = 'blue';
-    ctx.stroke(); // обводим
-    ctx.closePath();
-
+    ctx.resetTransform();
+    
     ctx.beginPath();
     ctx.save(); // сохраняем стейт контекста    
     ctx.translate(coords[0] + (sizes[0] - sizes[1] / 4) * Math.cos(angle),

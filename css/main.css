@@ -63,12 +63,45 @@ footer a{
     padding: 10px 10px 0 0;
 }
 
+section{
+    border-top: 2px solid grey;
+}
+
+#resultSection{
+    display: none;
+}
+
 .dev-info{
     margin: 8px 0;
     padding: 14px 20px;
     color: #959090;
 }
 
+.nhr-container{
+    display: flex;
+}
+
+/*Form style*/
+
+.form-container {
+    margin: 5% auto 10%;
+    /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    padding: 20px;
+    width: 400px;
+    box-sizing: border-box;
+}
+
+input[type=text],
+input[type=number], 
+select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0 25px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
 
 /* Set a style for all buttons */
 button {
@@ -85,27 +118,89 @@ button:hover {
     opacity: 0.8;
 }
 
+.vertical{
+    display: flex;
+    align-items: center;
+    margin: 0 10px 25px;
+    overflow-x:auto;
+    width: 100%;
+}
+
 /* for map */
 .pagePart {
     height: 512px;
     width: 512px;
-    margin: 1vh;
+    margin: 5% auto 5%;    
+    box-sizing: border-box;
 }
 
-#map {
+#map{
     border: 2px solid dimgrey;
 }
 
+#mapImg canvas{
+    border-right: 2px solid dimgrey;
+}
+
+.error-msg {
+    padding: 14px;
+    background-color: #F44336;
+    color: white;
+}
+
+input.error-input, select.err{
+    background-color: #fce4e4;
+    border: 1px solid #cc0033;
+    outline: none;
+}
+
+#msg {
+    text-align: center;
+    margin: 8px 0 25px;
+}
+
+table {
+    border: 2px solid dimgrey;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    font-size: 15px;
+  }
+  
+  th, td {
+    text-align: left;
+    padding: 2px;
+    border: 1px solid dimgrey;
+  }
+  
+  tr:nth-child(even){background-color: #f2f2f2}
+
 /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
 @media screen and (max-width: 1024px) {
-    .container{width: 100%;}
+    .container{width: 100%;}    
+
+    .nhr-container{ display: block; }    
+
+    .pagePart{
+        margin: 5% auto;
+    }
+
 }
+
 
 @media screen and (max-width: 600px) {
     .topnav a:not(:first-child) {display: none;}
     .topnav a.icon {
       float: right;
       display: block;
+    }
+
+    .pagePart{
+        width: 100%
+    }
+
+    .form-container{
+        width: 100%;
     }
   }
   
