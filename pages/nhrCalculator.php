@@ -1,4 +1,7 @@
-<? include("../config/conection.php"); ?>
+<? 
+    session_start();
+    include("../config/conection.php"); 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,8 +17,8 @@
 
 <body>
     <?php include('./../php/module/header.html'); ?>
-
-    <section>
+    <div class="Site-content">
+    <section >
         <div class="nhr-container container">
             <div id="map" class="pagePart"></div>
             <div class="form-container">
@@ -75,6 +78,7 @@
             <div id="damageTable" class="vertical"></div>
         </div>
     </section>
+                    </div>
 
     <? include('../php/module/footer.php'); ?>
 

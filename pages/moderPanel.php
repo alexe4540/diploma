@@ -19,7 +19,7 @@
 <body>
     <?php include('./../php/module/header.html'); ?>
 
-    <section>
+    <section class="Site-content">
         <div class="container">
             <div class="form-container">
                 <div id="msg"></div>

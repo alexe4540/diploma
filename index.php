@@ -6,78 +6,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>    
-    <link rel="stylesheet" href="css/main.css">    
+    <title>Document</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/mainpage.css">
 </head>
 
 <body>
     <?php include('./php/module/header.html'); ?>
 
-    <div class="body" style="height: 100vh;">
-        <div class="info-block">
-            <p>Info</p>
-            <div class="decription-block">
-                <img src="#" alt="#">
-                <div class="decription">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod earum enim, sunt
-                    ut optio odio? Tempore nesciunt quae illo, tempora a incidunt animi nobis. Repellendus saepe velit
-                    quibusdam necessitatibus dolorum.
-                    Iure quasi dolorum consequatur voluptatibus ipsum, totam aspernatur accusantium assumenda modi
-                    voluptatum iste veniam! Saepe, quos corporis? Iste sapiente magnam consequuntur, quod saepe porro
-                    deserunt, similique cum est sit culpa?
-                    Sequi et tempora velit ut pariatur numquam voluptates iure natus. At eos optio debitis praesentium
-                    autem quidem, voluptatem voluptate incidunt deserunt reprehenderit totam aspernatur numquam eligendi
-                    omnis voluptas possimus labore.
-                    Laboriosam non ab corrupti iste voluptate neque corporis atque tenetur maxime adipisci fuga debitis
-                    iusto, illo beatae animi aspernatur at libero et molestiae. Quaerat perspiciatis odio, voluptatem
-                    illum labore earum?
-                    Corporis illum optio id error autem odio enim quis, reprehenderit, quibusdam in dolorem, ullam totam
-                    assumenda molestias similique iusto? Blanditiis et molestiae ipsam fugiat voluptatem laudantium
-                    magni, enim minus soluta!</div>
+    <div class="Site-content">
+        <section>
+            <div class="">
+                <div class="img-bg">
+                    <div class="box">
+                        <h1>Аналіз збитків від природніх <br>
+                            та техногенних катастроф</h1>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="info-block">
-            <p>Info</p>
-            <div class="decription-block">
-                <img src="#" alt="#">
-                <div class="decription">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod earum enim, sunt
-                    ut optio odio? Tempore nesciunt quae illo, tempora a incidunt animi nobis. Repellendus saepe velit
-                    quibusdam necessitatibus dolorum.
-                    Iure quasi dolorum consequatur voluptatibus ipsum, totam aspernatur accusantium assumenda modi
-                    voluptatum iste veniam! Saepe, quos corporis? Iste sapiente magnam consequuntur, quod saepe porro
-                    deserunt, similique cum est sit culpa?
-                    Sequi et tempora velit ut pariatur numquam voluptates iure natus. At eos optio debitis praesentium
-                    autem quidem, voluptatem voluptate incidunt deserunt reprehenderit totam aspernatur numquam eligendi
-                    omnis voluptas possimus labore.
-                    Laboriosam non ab corrupti iste voluptate neque corporis atque tenetur maxime adipisci fuga debitis
-                    iusto, illo beatae animi aspernatur at libero et molestiae. Quaerat perspiciatis odio, voluptatem
-                    illum labore earum?
-                    Corporis illum optio id error autem odio enim quis, reprehenderit, quibusdam in dolorem, ullam totam
-                    assumenda molestias similique iusto? Blanditiis et molestiae ipsam fugiat voluptatem laudantium
-                    magni, enim minus soluta!</div>
+        </section>
+        <section>
+            <div class="container">
+                <div class="decription-block">
+                    <img src="/img/main-img-1.jpg" alt="#">
+                    <div class="decription">
+                        <h1>Аварія з викидом НХР</h1>
+                        <p> — це подія техногенного характеру, що
+                            сталася на хімічно небезпечному об'єкті
+                            внаслідок виробничих, конструктивних, технологічних чи експлуатаційних причин або від
+                            випадкових зовнішніх впливів, що призвела до пошкодження технологічного обладнання,
+                            пристроїв, споруд, транспортних засобів з виливом (викидом) НХР в атмосферу і реально
+                            загрожує життю, здоров'ю людей.</p>
+                        <a href="/pages/nhrCalculator.php">Перейти до розрахунку</a>
+
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="info-block">
-            <p>Info</p>
-            <div class="decription-block">
-                <img src="#" alt="#">
-                <div class="decription">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod earum enim, sunt
-                    ut optio odio? Tempore nesciunt quae illo, tempora a incidunt animi nobis. Repellendus saepe velit
-                    quibusdam necessitatibus dolorum.
-                    Iure quasi dolorum consequatur voluptatibus ipsum, totam aspernatur accusantium assumenda modi
-                    voluptatum iste veniam! Saepe, quos corporis? Iste sapiente magnam consequuntur, quod saepe porro
-                    deserunt, similique cum est sit culpa?
-                    Sequi et tempora velit ut pariatur numquam voluptates iure natus. At eos optio debitis praesentium
-                    autem quidem, voluptatem voluptate incidunt deserunt reprehenderit totam aspernatur numquam eligendi
-                    omnis voluptas possimus labore.
-                    Laboriosam non ab corrupti iste voluptate neque corporis atque tenetur maxime adipisci fuga debitis
-                    iusto, illo beatae animi aspernatur at libero et molestiae. Quaerat perspiciatis odio, voluptatem
-                    illum labore earum?
-                    Corporis illum optio id error autem odio enim quis, reprehenderit, quibusdam in dolorem, ullam totam
-                    assumenda molestias similique iusto? Blanditiis et molestiae ipsam fugiat voluptatem laudantium
-                    magni, enim minus soluta!</div>
+        </section>
+        <section>
+            <div class="container">
+                <div class="decription-block">
+                    <img src="/img/main-img-2.jpg" alt="#">
+                    <div class="decription">
+                        <h1>Землетрус</h1>
+                        <p> - це високочастотне в геологічному відношенні коливання земної кори, внаслідок
+                            якого виникають сейсми</p>
+                        <a href="earthquakeCalculator.php">Перейти до розрахунку</a>
+
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>    
+        </section>
+        <section>
+            <div class="container">
+                <div class="decription-block">
+                    <img src="/img/main-img-3.jpg" alt="#">
+                    <div class="decription">
+                        <h1>Лісова пожежа</h1>
+                        <p>- стихійне поширення вогню територією лісового фонду. Пожежа вважається
+                            лісовою, коли горять не тільки насадження, але й ділянки чагарників, захаращені вирубки,
+                            сухий травостій на прогалинах і вирубках, стерня на ділянках тимчасового
+                            сільськогосподарського користування на території лісових господарств</p>
+                        <a href="fireCalculator.php">Перейти до розрахунку</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
     <? include('./php/module/footer.php'); ?>
 </body>
+
 </html>
