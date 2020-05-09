@@ -18,67 +18,67 @@
 <body>
     <?php include('./../php/module/header.html'); ?>
     <div class="Site-content">
-    <section >
-        <div class="nhr-container container">
-            <div id="map" class="pagePart"></div>
-            <div class="form-container">
-                <div id="msg"></div>
+        <section>
+            <div class="nhr-container container">
+                <div id="map" class="pagePart"></div>
+                <div class="form-container">
+                    <div id="msg"></div>
 
-                <label for="fname"><b>Місце аварії</b></label>
-                <select id="fname" name="fname">
-                    <option value="0" slected>Оберіть обьект на якому сталася аварія</option>
+                    <label for="fname"><b>Місце аварії</b></label>
+                    <select id="fname" name="fname">
+                        <option value="0" slected>Оберіть обьект на якому сталася аварія</option>
 
-                    <? 
+                        <? 
                         $factorys = mysqli_query($dbc, "SELECT f_id, fname FROM factory");
                         while ($factory = mysqli_fetch_assoc($factorys)) {
 
                      ?>
-                    <option value="<? echo $factory['f_id']; ?>">
-                        <? echo $factory['fname']; ?>
-                    </option>
+                        <option value="<? echo $factory['f_id']; ?>">
+                            <? echo $factory['fname']; ?>
+                        </option>
 
-                    <? } ?>
-                </select>
+                        <? } ?>
+                    </select>
 
-                <label for="latitude"><b>Тип викинутої речовини</b></label>
-                <select id='substance' name="substance">
-                    <option value="0" slected>Оберіть тип викинутої речовини</option>
+                    <label for="latitude"><b>Тип викинутої речовини</b></label>
+                    <select id='substance' name="substance">
+                        <option value="0" slected>Оберіть тип викинутої речовини</option>
 
-                    <?
+                        <?
                         $enum_params = mysqli_fetch_assoc(mysqli_query($dbc, "SHOW COLUMNS FROM tabledeptvalue WHERE Field = 'name_NHR'"));
                         preg_match("/^enum\(\'(.*)\'\)$/", $enum_params['Type'], $res);
                         $enum = explode("','", $res['1']);
 
                         for($i = 0; $i < count($enum); $i++){
                     ?>
-                    <option value="<?echo $enum[$i]?>">
-                        <?echo $enum[$i] ?>
-                    </option>
-                    <? 
+                        <option value="<?echo $enum[$i]?>">
+                            <?echo $enum[$i] ?>
+                        </option>
+                        <? 
                         }
                     ?>
-                </select>
+                    </select>
 
-                <label for="countSub"><b>Кількість викинутої речовини, т</b></label>
-                <input type="number" placeholder="Введіть кількість викинутої речовини" name="countSub" required>
+                    <label for="countSub"><b>Кількість викинутої речовини, т</b></label>
+                    <input type="number" placeholder="Введіть кількість викинутої речовини" name="countSub" required>
 
-                <label for="wcount"><b>Відсоток працівників забезпечених протигазами</b></label>
-                <input type="number" placeholder="Введіть відсоток працівників" name="wcount" required>
+                    <label for="wcount"><b>Відсоток працівників забезпечених протигазами</b></label>
+                    <input type="number" placeholder="Введіть відсоток працівників" name="wcount" required>
 
-                <button id="calculateButton">Розрахувати</button>
+                    <button id="calculateButton">Розрахувати</button>
+                </div>
             </div>
-        </div>
-    </section>
-    <section id="resultSection">
-        <div class="nhr-container container">
-            <div id="mapImg" class="pagePart"></div>
-            <div id="resultTable" class="vertical"></div>
-        </div>
-        <div class="nhr-container container">
-            <div id="damageTable" class="vertical"></div>
-        </div>
-    </section>
-                    </div>
+        </section>
+        <section id="resultSection">
+            <div class="nhr-container container">
+                <div id="mapImg" class="pagePart"></div>
+                <div id="resultTable" class="vertical"></div>
+            </div>
+            <div class="nhr-container container">
+                <div id="damageTable" class="vertical"></div>
+            </div>
+        </section>
+    </div>
 
     <? include('../php/module/footer.php'); ?>
 
@@ -88,7 +88,7 @@
     <script src="/js/calc/getWether.js"></script>
     <script src="/js/getters/localGetter.js"></script>
     <script src="/js/getters/serverGetter.js"></script>
-    <script src="/js/helpers/drawEllipse.js"></script>
+    <script src="/js/helpers/drawOnCanvas.js"></script>
     <script src="/js/calc/workWIthMap.js"></script>
     <script src="/js/calc/parceCanvas.js"></script>
     <script src="/js/lib/html2canvas.min.js"></script>

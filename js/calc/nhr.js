@@ -58,7 +58,7 @@ async function calculate(id, nhrType, nhrQuantity, provGasMasl) {
                 "Напівясно";
 
         const timeOfDay = getTimeOfDay(accidentTime); //Время суток
-        
+
         const degreeOfVerticalStability = await workWithBD("vertical", routerName, {
                 timeOfDay,
                 cloudiness,
@@ -72,33 +72,33 @@ async function calculate(id, nhrType, nhrQuantity, provGasMasl) {
                 temperature,
                 windSpeed,
         }); //Гт - табличне значення глибини зони
-        
+
         const ksx = await workWithBD("nhr_cloud", routerName, {
                 nhrType,
                 height,
         }); //Ксх - коефіцієнт, що враховує тип сховища і характеризує зменшення глибини розповсюдження хмари НХР при виливі "у піддон"
-       
+
         const kzm = await workWithBD("koef_kzm", routerName, {
                 degreeOfVerticalStability,
                 palce: place["place"],
         }); //Кзм - коефіцієнт зменшення глибини розповсюдження хмари НХР для кожного 1 км довжини закритої місцевост
 
         const deptDecr = getDeptDecr(place.leng, kzm); //Гзм - величина, на яку зменшується глибина розповсюдження хмари НХР
-        
+
         const deptCalculatedZone = getDeptCalculatedZone(tablDeptZone, ksx, deptDecr); //розрахункової глибини отримане значення Гр
-        
+
         const transferSpeed = await workWithBD("v_transfer", routerName, {
                 windSpeed,
                 degreeOfVerticalStability,
         }); //W - швидкість переносу повітряних мас
-        
+
         const deptTramsfer = getDeptTransfer(transferSpeed); //глибини переносу повітряних мас Гп
-        
+
         const forecastDeptZone = getForecastDeptZone(
                 deptCalculatedZone,
                 deptTramsfer
         ); //за фактичну прогнозовану глибину зони забруднення, тобто Гпзхз
-        
+
         zoom = forecastDeptZone > 10 ? 11 : forecastDeptZone < 2 ? 13 : zoom;
 
         if (forecastDeptZone > 2)
@@ -139,10 +139,14 @@ async function calculate(id, nhrType, nhrQuantity, provGasMasl) {
                         latitude,
                         longitude,
                 },
-                zoom,
-                [forecastDeptZone, widthForecastZone],
-                windAzimut
+                zoom
         );
+
+        const semiaxisA = (forecastDeptZone * 1000) / 2;
+        const semiaxisB = (widthForecastZone * 1000) / 2;
+
+        const canvas = document.querySelector('#canvas');
+        drawOnMap(zoneBorderColorRGB, canvas, latitude, longitude, zoom, [semiaxisA, semiaxisB], windAzimut);
 
         createTable('resultTable', [
                 [
