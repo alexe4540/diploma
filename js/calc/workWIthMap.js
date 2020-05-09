@@ -1,8 +1,6 @@
-async function workWIthMap(coordinates, scale, sizes, angle) {
+async function workWIthMap(coordinates, scale) {
     let latitude = coordinates.latitude;
     let longitude = coordinates.longitude;
-    let semiaxisA = (sizes[0] * 1000) / 2;
-    let semiaxisB = (sizes[1] * 1000) / 2;
 
     map.setView([latitude, longitude], scale);
 
@@ -11,22 +9,20 @@ async function workWIthMap(coordinates, scale, sizes, angle) {
     });
     let result = await promise;
 
-    goFunc(latitude, longitude, scale, semiaxisA, semiaxisB, angle);
-
+    goFunc(latitude, longitude, scale);
+    
     return new Promise((resolve, reject) => {
         setTimeout(() => resolve("готово!"), 1000)
     });
 }
 
-
-
-const map = L.map('map').setView([0, 0], 2);
+const map = L.map('map').setView([50.452554, 30.561522], 5);
 L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 L.control.scale().addTo(map);
 
-function goFunc(latitude, longitude, scale, semiaxisA, semiaxisB, angle) {
+function goFunc(latitude, longitude, scale) {
     html2canvas(document.querySelector("#map"), {
         allowTaint: true,
         useCORS: true,
@@ -35,23 +31,28 @@ function goFunc(latitude, longitude, scale, semiaxisA, semiaxisB, angle) {
         let cnvs = document.querySelector("canvas");
         if (cnvs) cnvs.remove();
         canvas.id = 'canvas';
-        drawOnMap(canvas, latitude, longitude, scale, semiaxisA, semiaxisB, angle);
         mapImg.appendChild(canvas);
     })
 };
 
 //TODO придумать как посчитать пиксели внетри круга
 
-function drawOnMap(canvas, latitude, longitude, scale, semiaxisA, semiaxisB, angle) {
+function drawOnMap(color, canvas, latitude, longitude, scale, radius, angle) {
     let ctx = canvas.getContext('2d');
 
-    let sPixelA = pixelValue(latitude, semiaxisA, scale);
-    let sPixelB = pixelValue(latitude, semiaxisB, scale);
+    if(typeof radius == 'number'){
+        let rad = pixelValue(latitude, radius * 1000, scale)
 
-    ctx.lineWidth = 2;
-    drawEllipse(ctx, [canvas.width / 2, canvas.height / 2], [sPixelA, sPixelB], angle);
-
-    return;
+        drawArc(color, ctx, [canvas.width / 2, canvas.height / 2], rad);
+    } else {
+        let sPixelA = pixelValue(latitude, radius[0], scale);
+        let sPixelB = pixelValue(latitude, radius[1], scale);
+    
+        ctx.lineWidth = 2;
+        drawEllipse(color, ctx, [canvas.width / 2, canvas.height / 2], [sPixelA, sPixelB], angle);
+    
+        return;
+    }    
 }
 
 function metersPerPixel(latitude, zoomLevel) {
