@@ -160,3 +160,35 @@
       
       echo $res["latitude"] . '|' . $res["longitude"] . '|' . $res['wcount'] . '|' . $res['city'];
    }
+
+   function getEffects($dbc, $data){
+      $id = $data['intensity'];
+
+      $valueCity = mysqli_query($dbc, "SELECT effects  FROM earthquakeeffects WHERE intensity = '$id'");
+
+      $res = mysqli_fetch_assoc($valueCity);
+      
+      echo $res["effects"];
+   }
+
+   function getDeathPercent($dbc, $data){
+      $intensity = $data['intensity'];
+
+      $valueCity = mysqli_query($dbc, "SELECT buildingType, deathPercent FROM earthqueakedeath WHERE intensity = '$intensity'");
+
+      $resArr = mysqli_fetch_all($valueCity);
+      $res = json_encode($resArr, JSON_UNESCAPED_UNICODE);
+      
+      echo $res;
+   }
+
+   function getSystemPercent($dbc, $data){
+      $intensity = $data['intensity'];
+
+      $valueCity = mysqli_query($dbc, "SELECT system_type, value FROM earthquake_life_support_system WHERE intensity = '$intensity'");
+
+      $resArr = mysqli_fetch_all($valueCity);
+      $res = json_encode($resArr, JSON_UNESCAPED_UNICODE);
+      
+      echo $res;
+   }
