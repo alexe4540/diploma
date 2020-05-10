@@ -79,6 +79,7 @@ section{
 
 .nhr-container{
     display: flex;
+    justify-content: space-evenly;
 }
 
 /*Form style*/
@@ -123,7 +124,7 @@ button:hover {
     align-items: center;
     margin: 0 10px 25px;
     overflow-x:auto;
-    width: 100%;
+    width: 50%;
 }
 
 /* for map */
@@ -181,6 +182,10 @@ table {
     flex-direction: column;
   }
 
+  caption{
+      margin: 10px;
+  }
+
   .Site-content {
     flex: 1;
   }
@@ -194,7 +199,16 @@ table {
         margin: 5% auto;
     }
 
+    .vertical{
+        margin: 5px auto 15px;
+    }
 }
+
+@media screen and (max-width: 824px) {
+    .vertical{
+        width: 90%;
+    }
+  }
 
 @media screen and (max-width: 600px) {
     .topnav a:not(:first-child) {display: none;}
@@ -208,6 +222,10 @@ table {
     }
 
     .form-container{
+        width: 100%;
+    }
+
+    canvas{
         width: 100%;
     }
   }

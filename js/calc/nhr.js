@@ -167,7 +167,7 @@ async function calculate(id, nhrType, nhrQuantity, provGasMasl) {
                         pollutionDuration,
                         `Всього: ${peopleLoss.totalLoss}, смерт.- ${peopleLoss.death}, серед.- ${peopleLoss.moderateSeverity}, легкі- ${peopleLoss.lightSeverity}`,
                 ],
-        ]);
+        ], 'Таблиця 1 - Результати оцінки хімічної обстановки');
 
         const data = getData();
 
@@ -209,26 +209,6 @@ async function calculate(id, nhrType, nhrQuantity, provGasMasl) {
                         foresDamage.toFixed(2),
                         waterDamage.toFixed(2)
                 ]
-        ])
+        ], 'Таблиця 2 - Результати оцінки прогнозованого еколого-економічного збитку')
 }
 
-function createTable(domElementID, tableData) {
-        const resultTable = document.querySelector(`#${domElementID}`);
-        const table = document.createElement("table");
-        const tableBody = document.createElement("tbody");
-
-        tableData.forEach(function (rowData) {
-                const row = document.createElement("tr");
-
-                rowData.forEach(function (cellData) {
-                        const cell = document.createElement("td");
-                        cell.appendChild(document.createTextNode(cellData));
-                        row.appendChild(cell);
-                });
-
-                tableBody.appendChild(row);
-        });
-
-        table.appendChild(tableBody);
-        resultTable.appendChild(table);
-}

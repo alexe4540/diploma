@@ -3,7 +3,8 @@ function drawEllipse(color, ctx, coords, sizes, angle) {
     color = `rgb(${color.r}, ${color.g}, ${color.b})`;
 
     ctx.resetTransform();
-    
+
+    ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.save(); // сохраняем стейт контекста    
     ctx.translate(coords[0] + (sizes[0] - sizes[1] / 4) * Math.cos(angle),
@@ -21,6 +22,7 @@ function drawArc(color, ctx, coords, radius) {
     ctx.resetTransform();
     color = `rgb(${color.r}, ${color.g}, ${color.b})`;
 
+    ctx.lineWidth = 4;
     ctx.beginPath();
     ctx.save(); // сохраняем стейт контекста    
     ctx.arc(coords[0], coords[1], radius, 0, Math.PI * 2); // рисуем круг

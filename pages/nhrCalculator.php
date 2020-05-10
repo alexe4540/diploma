@@ -89,6 +89,7 @@
     <script src="/js/getters/localGetter.js"></script>
     <script src="/js/getters/serverGetter.js"></script>
     <script src="/js/helpers/drawOnCanvas.js"></script>
+    <script src="/js/helpers/drawTable.js"></script>
     <script src="/js/calc/workWIthMap.js"></script>
     <script src="/js/calc/parceCanvas.js"></script>
     <script src="/js/lib/html2canvas.min.js"></script>

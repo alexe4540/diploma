@@ -48,7 +48,6 @@ function drawOnMap(color, canvas, latitude, longitude, scale, radius, angle) {
         let sPixelA = pixelValue(latitude, radius[0], scale);
         let sPixelB = pixelValue(latitude, radius[1], scale);
     
-        ctx.lineWidth = 2;
         drawEllipse(color, ctx, [canvas.width / 2, canvas.height / 2], [sPixelA, sPixelB], angle);
     
         return;
