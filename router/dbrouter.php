@@ -36,7 +36,19 @@
     if($_GET["func"] == "agriculture"){
         echo getAgriculture($dbc, $data);
     }
-
+    
     if($_GET["func"] == "factory"){
         echo getFactory($dbc, $data);
+    }
+    
+    if($_GET["func"] == "earthquakeeffects"){
+        echo getEffects($dbc, $data);
+    }
+
+    if($_GET["func"] == "earthqueakedeath"){
+        echo getDeathPercent($dbc, $data);
+    }
+
+    if($_GET["func"] == "earthqueakesystem"){
+        echo getSystemPercent($dbc, $data);
     }
