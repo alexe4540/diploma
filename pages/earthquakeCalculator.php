@@ -24,42 +24,50 @@
                 <div class="form-container">
                     <div id="msg"></div>
 
-                    <label for="fname"><b>Місце аварії</b></label>
-                    <select id="fname" name="fname">
-                        <option value="0" slected>Оберіть обьект на якому сталася аварія</option>
+                    <label for="fname"><b>Варіант вводу координат землетрусу</b></label>
+                    <select name="inputType" id="inputType">
+                        <option value="" disabled selected>--Оберіть варіант вводу--</option>
+                        <option value="marker">Маркер на мапі</option>
+                        <option value="coordinates">Координати місця винекнення</option>
                     </select>
 
-                    <label for="latitude"><b>Тип викинутої речовини</b></label>
-                    <select id='substance' name="substance">
-                        <option value="0" slected>Оберіть тип викинутої речовини</option>
-                    </select>
+                    <label for="latitude"><b>Широта</b></label>
+                    <input type="number" placeholder="Введіть широту" name="latitude" required disabled>
 
-                    <label for="countSub"><b>Кількість викинутої речовини, т</b></label>
-                    <input type="number" placeholder="Введіть кількість викинутої речовини" name="countSub" required>
+                    <label for="longitude"><b>Довгота</b></label>
+                    <input type="number" placeholder="Введіть довготу" name="longitude" required disabled>
 
-                    <label for="wcount"><b>Відсоток працівників забезпечених протигазами</b></label>
-                    <input type="number" placeholder="Введіть відсоток працівників" name="wcount" required>
+                    <label for="magnitude"><b>Магнітуду</b></label>
+                    <input type="number" placeholder="Введіть магнітуду" name="magnitude" required>
+
+                    <label for="depth"><b>Глибина гіпоцентру</b></label>
+                    <input type="number" placeholder="Введіть глибину гіпоцентру" name="depth" required>
 
                     <button id="calculateButton">Розрахувати</button>
                 </div>
             </div>
         </section>
-        <section id="resultSection" style="display: block">
+        <section id="resultSection" style="display: none">
             <div class="nhr-container container">
                 <div id="mapImg" class="pagePart"></div>
                 <div id="resultTable" class="vertical"></div>
             </div>
             <div class="nhr-container container">
                 <div id="damageTable" class="vertical"></div>
+                <div id="lifeSupportSystems" class="vertical"></div>
             </div>
         </section>
     </div>
 
     <? include('../php/module/footer.php'); ?>
 
+    <script src="/js/helpers/readJSON.js"></script>
+    <script src="/js/getters/serverGetter.js"></script>
     <script src="/js/helpers/drawOnCanvas.js"></script>
+    <script src="/js/helpers/drawTable.js"></script>
     <script src="/js/lib/html2canvas.min.js"></script>
     <script src="/js/calc/workWIthMap.js"></script>
+    <script src="/js/module/earthquake.js"></script>
     <script src="/js/calc/earthquake.js"></script>
 </body>
 
