@@ -1,5 +1,5 @@
 
-function createTable(domElementID, tableData, captionValue) {
+function createTable(domElementID, tableData, captionValue, title) {
     const resultTable = document.querySelector(`#${domElementID}`);
     const table = document.createElement("table");
     const tableBody = document.createElement("tbody");
@@ -7,7 +7,8 @@ function createTable(domElementID, tableData, captionValue) {
 
 	caption.textContent  = captionValue;
 	caption.align = 'bottom';
-	table.appendChild(caption);
+    table.appendChild(caption);
+    table.title = title;
 
     tableData.forEach(function (rowData) {
             const row = document.createElement("tr");

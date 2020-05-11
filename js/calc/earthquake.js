@@ -97,18 +97,18 @@ async function calculate(latitude, longitude, magnitude, depth) {
 
 	if (epicentrIntensity < 7) {
 		let epicentrDeathJSON = await workWithBD('earthqueakedeath', routerName, {
-			intensity: 0
-		}),
-		firstZoneDeathJSON = await workWithBD('earthqueakedeath', routerName, {
-			intensity: 0
-		}),
-		secondZoneDeathJSON = await workWithBD('earthqueakedeath', routerName, {
-			intensity: 0
-		});
+				intensity: 0
+			}),
+			firstZoneDeathJSON = await workWithBD('earthqueakedeath', routerName, {
+				intensity: 0
+			}),
+			secondZoneDeathJSON = await workWithBD('earthqueakedeath', routerName, {
+				intensity: 0
+			});
 
-	epicentrDeath = JSON.parse(epicentrDeathJSON);
-	firstZoneDeath = JSON.parse(firstZoneDeathJSON);
-	secondZoneDeath = JSON.parse(secondZoneDeathJSON);
+		epicentrDeath = JSON.parse(epicentrDeathJSON);
+		firstZoneDeath = JSON.parse(firstZoneDeathJSON);
+		secondZoneDeath = JSON.parse(secondZoneDeathJSON);
 	} else {
 		let epicentrDeathJSON = await workWithBD('earthqueakedeath', routerName, {
 				intensity: epicentrIntensity
@@ -190,7 +190,7 @@ async function calculate(latitude, longitude, magnitude, depth) {
 		])
 	};
 
-	createTable('lifeSupportSystems', systemArr, 'Таблиця 3 - Стійкість систем життєзабезпечення, %');
+	createTable('lifeSupportSystems', systemArr, 'Таблиця 3 - Стійкість систем життєзабезпечення, %', 'Примітка: У чисельнику -% систем життєзабезпечення, здатних до функціонуванню негайно, а в знаменнику - після відновлювальних робіт в Протягом доби.');
 
 }
 
