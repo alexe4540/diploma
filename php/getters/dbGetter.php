@@ -192,3 +192,25 @@
       
       echo $res;
    }
+   
+   function getWoodDamageChar($dbc, $data){
+      $woodDamage = $data['woodDamage'];
+
+      $valueCity = mysqli_query($dbc, "SELECT description, damage_percent FROM wood_damage_char WHERE d_class = '$woodDamage'");
+
+      $resArr = mysqli_fetch_all($valueCity);
+      $res = json_encode($resArr, JSON_UNESCAPED_UNICODE);
+      
+      echo $res;
+   }
+
+   function getWoodDamage($dbc, $data){
+      $height = $data['avgHeghtCarbon'];
+      $wood_type = $data['burnabilityClass'];
+      $diameter = $data['avgTreeDiameter'];
+
+      $valueCity = mysqli_query($dbc, "SELECT d_class FROM wood_damage WHERE height = '$height' AND wood_type = '$wood_type' AND diameter = '$diameter'");
+      $res = mysqli_fetch_assoc($valueCity);
+
+      echo $res["d_class"];
+   }

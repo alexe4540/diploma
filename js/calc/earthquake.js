@@ -28,9 +28,9 @@ async function calculate(latitude, longitude, magnitude, depth) {
 	);
 
 	const canvas = document.querySelector('#canvas');
-	drawOnMap(epicentrZoneBorderColorRGB, canvas, latitude, longitude, zoom, 1);
-	drawOnMap(dangerZoneBorderColorRGB, canvas, latitude, longitude, zoom, 10);
-	drawOnMap(midleDangerZoneBorderColorRGB, canvas, latitude, longitude, zoom, 20);
+	drawOnMap('drawArc', epicentrZoneBorderColorRGB, canvas, latitude, longitude, zoom, 1);
+	drawOnMap('drawArc', dangerZoneBorderColorRGB, canvas, latitude, longitude, zoom, 10);
+	drawOnMap('drawArc', midleDangerZoneBorderColorRGB, canvas, latitude, longitude, zoom, 20);
 
 	let epicentrIntensity = getIntensityEpicentr(magnitude, depth),
 		firstZone = getIntensity(magnitude, depth, 10),

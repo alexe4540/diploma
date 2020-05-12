@@ -52,3 +52,11 @@
     if($_GET["func"] == "earthqueakesystem"){
         echo getSystemPercent($dbc, $data);
     }
+  
+    if($_GET["func"] == "wood_damage"){
+        echo getWoodDamage($dbc, $data);
+    }
+   
+    if($_GET["func"] == "wood_damage_char"){
+        echo getWoodDamageChar($dbc, $data);
+    }

@@ -25,7 +25,7 @@
                     <div id="msg"></div>
 
                     <label for="fname"><b>Варіант вводу координат землетрусу</b></label>
-                    <select name="inputType" id="inputType">
+                    <select name="inputType" id="inputType" required>
                         <option value="" disabled selected>--Оберіть варіант вводу--</option>
                         <option value="marker">Маркер на мапі</option>
                         <option value="coordinates">Координати місця винекнення</option>

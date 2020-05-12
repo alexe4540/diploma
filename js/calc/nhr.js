@@ -146,7 +146,7 @@ async function calculate(id, nhrType, nhrQuantity, provGasMasl) {
         const semiaxisB = (widthForecastZone * 1000) / 2;
 
         const canvas = document.querySelector('#canvas');
-        drawOnMap(zoneBorderColorRGB, canvas, latitude, longitude, zoom, [semiaxisA, semiaxisB], windAzimut);
+        drawOnMap('drawEllipse', zoneBorderColorRGB, canvas, latitude, longitude, zoom, [semiaxisA, semiaxisB], windAzimut);
 
         createTable('resultTable', [
                 [

@@ -37,21 +37,28 @@ function goFunc(latitude, longitude, scale) {
 
 //TODO придумать как посчитать пиксели внетри круга
 
-function drawOnMap(color, canvas, latitude, longitude, scale, radius, angle) {
+function drawOnMap(drawFuncName, color, canvas, latitude, longitude, scale, radius, angle) {
     let ctx = canvas.getContext('2d');
 
-    if(typeof radius == 'number'){
+    if( drawFuncName == 'drawArc'){
         let rad = pixelValue(latitude, radius * 1000, scale)
 
         drawArc(color, ctx, [canvas.width / 2, canvas.height / 2], rad);
-    } else {
+    } else if (drawFuncName == 'drawEllipse') {
         let sPixelA = pixelValue(latitude, radius[0], scale);
         let sPixelB = pixelValue(latitude, radius[1], scale);
     
         drawEllipse(color, ctx, [canvas.width / 2, canvas.height / 2], [sPixelA, sPixelB], angle);
     
         return;
-    }    
+    } else if (drawFuncName == 'drawFireZone'){
+        let sPixelA = pixelValue(latitude, radius[0], scale);
+        let sPixelB = pixelValue(latitude, radius[1], scale);
+    
+        drawFireZone(color, ctx, [canvas.width / 2, canvas.height / 2], [sPixelA, sPixelB], angle);
+    
+        return;
+    }
 }
 
 function metersPerPixel(latitude, zoomLevel) {
