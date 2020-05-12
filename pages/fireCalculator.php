@@ -21,24 +21,78 @@
         <section>
             <div class="nhr-container container">
                 <div id="map" class="pagePart"></div>
-                <div class="form-container">
+                <div class="form-container" style="height: 512px; overflow-y: auto;">
                     <div id="msg"></div>
 
-                    <label for="fname"><b>Місце аварії</b></label>
-                    <select id="fname" name="fname">
-                        <option value="0" slected>Оберіть обьект на якому сталася аварія</option>
+                    <label for="fname"><b>Варіант вводу координат землетрусу</b></label>
+                    <select name="inputType" id="inputType">
+                        <option value="" disabled selected>--Оберіть варіант вводу--</option>
+                        <option value="marker">Маркер на мапі</option>
+                        <option value="coordinates">Координати місця винекнення</option>
                     </select>
 
-                    <label for="latitude"><b>Тип викинутої речовини</b></label>
-                    <select id='substance' name="substance">
-                        <option value="0" slected>Оберіть тип викинутої речовини</option>
+                    <label for="latitude"><b>Широта</b></label>
+                    <input type="number" placeholder="Введіть широту" name="latitude" required disabled>
+
+                    <label for="longitude"><b>Довгота</b></label>
+                    <input type="number" placeholder="Введіть довготу" name="longitude" required disabled>
+
+                    <label for="fireType"><b>Вид пожежі</b></label>
+                    <select id="fireType" name="fireType">
+                        <option value="" disabled selected>--Оберіть вид пожежі--</option>
+                        <option value="1">Верховий стійкий</option>
+                        <option value="2">Верховий побіжний</option>
+                        <option value="3">Низовий</option>
+                    </select>
+                    
+                    <label for="burnabilityClass"><b>Клас горимості лісових насаджень</b></label>
+                    <select id="burnabilityClass" name="burnabilityClass">
+                        <option value="" disabled selected>--Оберіть клас горимості--</option>
+                        <option value="1">Чисті і з домішкою листяних порід хвойні насадження (крім модринових)</option>
+                        <option value="2">Чисті з домішкою хвойних порід листяні насадження, а також модринові насадження</option>
                     </select>
 
-                    <label for="countSub"><b>Кількість викинутої речовини, т</b></label>
-                    <input type="number" placeholder="Введіть кількість викинутої речовини" name="countSub" required>
+                    <label for="avgHeghtCarbon"><b>Середня висота нагару</b></label>
+                    <select id='avgHeghtCarbon' name="avgHeghtCarbon">
+                        <option value="" disabled selected>Оберіть середню висоту нагару</option>
 
-                    <label for="wcount"><b>Відсоток працівників забезпечених протигазами</b></label>
-                    <input type="number" placeholder="Введіть відсоток працівників" name="wcount" required>
+                        <?
+                        $enum_params = mysqli_fetch_assoc(mysqli_query($dbc, "SHOW COLUMNS FROM wood_damage WHERE Field = 'height'"));
+                        preg_match("/^enum\(\'(.*)\'\)$/", $enum_params['Type'], $res);
+                        $enum = explode("','", $res['1']);
+
+                        for($i = 0; $i < count($enum); $i++){
+                    ?>
+                        <option value="<?echo $enum[$i]?>">
+                            <?echo $enum[$i] ?>
+                        </option>
+                        <? 
+                        }
+                    ?>
+                    </select>
+                    
+                    <label for="avgTreeDiameter"><b>Середній діаметр деревостою</b></label>
+                    <select id='avgTreeDiameter' name="avgTreeDiameter">
+                        <option value="" disabled selected>Оберіть середній діаметр деревостою</option>
+
+                        <?
+                        $enum_params = mysqli_fetch_assoc(mysqli_query($dbc, "SHOW COLUMNS FROM wood_damage WHERE Field = 'diameter'"));
+                        preg_match("/^enum\(\'(.*)\'\)$/", $enum_params['Type'], $res);
+                        $enum = explode("','", $res['1']);
+
+                        for($i = 0; $i < count($enum); $i++){
+                    ?>
+                        <option value="<?echo $enum[$i]?>">
+                            <?echo $enum[$i] ?>
+                        </option>
+                        <? 
+                        }
+                    ?>
+                    </select>
+
+                    <label for="startPerimeter"><b>Початковий периметр зони загорання, м</b></label>
+                    <input type="number" placeholder="Введіть початковий периметр загорання" name="startPerimeter" required>
+
 
                     <button id="calculateButton">Розрахувати</button>
                 </div>
@@ -56,7 +110,19 @@
     </div>
 
     <? include('../php/module/footer.php'); ?>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/skycons/1396634940/skycons.min.js'></script>
+    <script src="/js/helpers/readJSON.js"></script>
+    <script src="/js/calc/getWether.js"></script>
+    <script src="/js/helpers/readJSON.js"></script>
+    <script src="/js/getters/serverGetter.js"></script>
+    <script src="/js/helpers/drawOnCanvas.js"></script>
+    <script src="/js/helpers/drawTable.js"></script>
+    <script src="/js/lib/html2canvas.min.js"></script>
     <script src="/js/calc/workWIthMap.js"></script>
+    <script src="/js/module/forestFire.js"></script>
+    <script src="/js/calc/forestfire.js"></script>
 </body>
 
 </html>
