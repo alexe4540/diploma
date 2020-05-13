@@ -15,3 +15,30 @@
 
         echo $insertResult;
     }
+
+    if($_GET["func"] == "insertUser"){
+        $uname = $data['uname'];
+        $pass = $data['pass'];
+        $role = $data['role'];
+
+        $insertResult = mysqli_query($dbc, "INSERT INTO users (uname, pass, role) VALUES ('" . $uname . "','" . password_hash($pass, PASSWORD_DEFAULT) . "','" . $role . "')");
+
+        echo $insertResult;
+    }
+
+    if($_GET["func"] == "deleteUser"){
+        $id = $data["user_id"];
+
+        $deleteResult = mysqli_query($dbc, "DELETE FROM users WHERE user_id = " . $id);
+
+        echo $deleteResult;
+    }
+
+    if($_GET["func"] == "users"){
+        $users = mysqli_query($dbc, "select * from users");
+
+        $resArr = mysqli_fetch_all($users);
+        $res = json_encode($resArr, JSON_UNESCAPED_UNICODE);
+      
+        echo $res;
+    }

@@ -160,6 +160,10 @@ input.error-input, select.error-input{
     margin: 8px 0 25px;
 }
 
+label{
+    display: block;
+}
+
 table {
     border: 2px solid dimgrey;
     border-collapse: collapse;

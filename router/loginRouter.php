@@ -5,9 +5,9 @@ $uname = $_POST['uname'];
 $pass = $_POST['pass'];
 
 if (!empty($uname) && !empty($pass)) {
-    $user = mysqli_query($dbc, "SELECT * FROM users WHERE uname = '$uname' AND pass = '$pass'");
+    $user = mysqli_query($dbc, "SELECT * FROM users WHERE uname = '$uname'");
     $row = mysqli_fetch_assoc($user);
-    if (mysqli_num_rows($user) == 1) {
+    if (mysqli_num_rows($user) == 1 && password_verify($pass, $row['pass'])) {
         if ($row['role'] == 'admin') {
            $_SESSION['role'] = 'admin';
            $_SESSION["uname"] = $row['uname'];

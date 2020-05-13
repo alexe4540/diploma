@@ -1,0 +1,45 @@
+* {
+    box-sizing: border-box
+}
+
+.tablink {
+    background-color: #555;
+    color: white;
+    margin-right: -5px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 15px;
+    width: 25%;
+}
+
+.tablink:hover {
+    background-color: #777;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+    color: black;
+    display: none;
+    height: 100%;
+}
+
+input[name = pass] {
+    width: 69%;
+    display: inline-block;
+}
+
+
+#generatePassButton {
+    width: 29%;
+    display: inline-block;
+    padding: 5px;
+    margin: 8px 5px;
+}
+
+@media screen and (max-width: 816px){
+    .tablink{
+        width: 50%;
+    }
+}
