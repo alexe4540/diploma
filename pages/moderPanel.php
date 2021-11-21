@@ -1,4 +1,4 @@
-<?
+<?php 
     session_start();
     if (!isset($_SESSION['role'])) {
         header("Location: ../index.php");
@@ -43,7 +43,7 @@
             </div>
         </div>
     </section>
-    <? include('../php/module/footer.php'); ?>
+    <?php  include('../php/module/footer.php'); ?>
 </body>
 <script src="/js/getters/serverGetter.js"></script>
 <script src="/js/module/moderPanel.js"></script>

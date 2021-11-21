@@ -1,4 +1,4 @@
-<? 
+<?php  
     session_start();
     include("../config/conection.php"); 
 ?>
@@ -37,7 +37,7 @@
                     <label for="longitude"><b>Довгота</b></label>
                     <input type="number" placeholder="Введіть довготу" name="longitude" required disabled>
 
-                    <label for="magnitude"><b>Магнітуду</b></label>
+                    <label for="magnitude"><b>Магнітуда</b></label>
                     <input type="number" placeholder="Введіть магнітуду" name="magnitude" required>
 
                     <label for="depth"><b>Глибина гіпоцентру</b></label>
@@ -59,7 +59,7 @@
         </section>
     </div>
 
-    <? include('../php/module/footer.php'); ?>
+    <?php  include('../php/module/footer.php'); ?>
 
     <script src="/js/helpers/readJSON.js"></script>
     <script src="/js/getters/serverGetter.js"></script>

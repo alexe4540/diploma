@@ -43,6 +43,7 @@ async function calculate(id, nhrType, nhrQuantity, provGasMasl) {
 
         const wetherObjJSON = await getWetherData(latitude, longitude);
         const wetherObj = JSON.parse(wetherObjJSON);
+        console.log(wetherObj);
 
         const temperature = wetherObj.currently.temperature, //            температура воздуха
                 windSpeed = wetherObj.currently.windSpeed, //            скорость ветра
@@ -99,9 +100,9 @@ async function calculate(id, nhrType, nhrQuantity, provGasMasl) {
                 deptTramsfer
         ); //за фактичну прогнозовану глибину зони забруднення, тобто Гпзхз
 
-        zoom = forecastDeptZone > 10 ? 11 : forecastDeptZone < 2 ? 13 : zoom;
+        //zoom = forecastDeptZone > 10 ? 11 : forecastDeptZone < 2 ? 13 : zoom;
 
-        if (forecastDeptZone > 2)
+        if (forecastDeptZone > 5)
                 zoom = 11;
         else if (forecastDeptZone < 2)
                 zoom = 13;

@@ -1,4 +1,4 @@
-async function getJSONWether(url, callback) {
+async function getJSONWether(url) {
     let result;
 
     await $.ajax({

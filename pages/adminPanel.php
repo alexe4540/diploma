@@ -1,4 +1,4 @@
-<?
+<?php 
     session_start();
     if ($_SESSION['role'] !== 'admin') {
         header("Location: ../index.php");
@@ -43,17 +43,17 @@
                 <select id='role' name="role">
                     <option value="" disabled selected>Оберіть роль користувача</option>
 
-                    <?
+                    <?php
                         $enum_params = mysqli_fetch_assoc(mysqli_query($dbc, "SHOW COLUMNS FROM users WHERE Field = 'role'"));
                         preg_match("/^enum\(\'(.*)\'\)$/", $enum_params['Type'], $res);
                         $enum = explode("','", $res['1']);
 
                         for($i = 0; $i < count($enum); $i++){
                     ?>
-                    <option value="<?echo $enum[$i]?>">
-                        <?echo $enum[$i] ?>
+                    <option value="<?php echo $enum[$i]?>">
+                        <?php echo $enum[$i] ?>
                     </option>
-                    <? 
+                    <?php  
                         }
                     ?>
                 </select>
@@ -70,20 +70,20 @@
                         <th>Пароль</th>
                         <th>Видалити</th>
                     </tr>
-                    <?
+                    <?php 
                         $users = mysqli_query($dbc, 'select * from users');
 
                         while($user = mysqli_fetch_assoc($users)){
                     ?>
                     <tr>
-                        <td><?echo $user['user_id']?></td>
-                        <td><?echo $user['uname']?></td>
-                        <td><?echo $user['role']?></td>
+                        <td><?php echo $user['user_id']?></td>
+                        <td><?php echo $user['uname']?></td>
+                        <td><?php echo $user['role']?></td>
                         <td></td>
-                        <td><button name="<? echo $user['user_id']?>" onclick="deleteFromDB(<? echo $user['user_id']?>)">Видалити</button></td>
+                        <td><button name="<?php  echo $user['user_id']?>" onclick="deleteFromDB(<?php  echo $user['user_id']?>)">Видалити</button></td>
                     </tr>    
 
-                    <?
+                    <?php 
                         }
 
 
@@ -92,7 +92,7 @@
             </div>
         </div>
     </section>
-    <? include('../php/module/footer.php'); ?>
+    <?php  include('../php/module/footer.php'); ?>
 </body>
 <script src="/js/module/tabs.js"></script>
 <script src="/js/getters/serverGetter.js"></script>

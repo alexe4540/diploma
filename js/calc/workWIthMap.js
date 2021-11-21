@@ -9,7 +9,7 @@ async function workWIthMap(coordinates, scale) {
     });
     let result = await promise;
 
-    goFunc(latitude, longitude, scale);
+    goFunc();
     
     return new Promise((resolve, reject) => {
         setTimeout(() => resolve("готово!"), 1000)
@@ -22,7 +22,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
 }).addTo(map);
 L.control.scale().addTo(map);
 
-function goFunc(latitude, longitude, scale) {
+function goFunc() {
     html2canvas(document.querySelector("#map"), {
         allowTaint: true,
         useCORS: true,
@@ -34,8 +34,6 @@ function goFunc(latitude, longitude, scale) {
         mapImg.appendChild(canvas);
     })
 };
-
-//TODO придумать как посчитать пиксели внетри круга
 
 function drawOnMap(drawFuncName, color, canvas, latitude, longitude, scale, radius, angle) {
     let ctx = canvas.getContext('2d');

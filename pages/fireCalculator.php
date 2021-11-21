@@ -1,4 +1,4 @@
-<? 
+<?php  
     session_start();
     include("../config/conection.php"); 
 ?>
@@ -56,17 +56,17 @@
                     <select id='avgHeghtCarbon' name="avgHeghtCarbon">
                         <option value="" disabled selected>Оберіть середню висоту нагару</option>
 
-                        <?
+                        <?php 
                         $enum_params = mysqli_fetch_assoc(mysqli_query($dbc, "SHOW COLUMNS FROM wood_damage WHERE Field = 'height'"));
                         preg_match("/^enum\(\'(.*)\'\)$/", $enum_params['Type'], $res);
                         $enum = explode("','", $res['1']);
 
                         for($i = 0; $i < count($enum); $i++){
                     ?>
-                        <option value="<?echo $enum[$i]?>">
-                            <?echo $enum[$i] ?>
+                        <option value="<?php echo $enum[$i]?>">
+                            <?php echo $enum[$i] ?>
                         </option>
-                        <? 
+                        <?php  
                         }
                     ?>
                     </select>
@@ -75,17 +75,17 @@
                     <select id='avgTreeDiameter' name="avgTreeDiameter">
                         <option value="" disabled selected>Оберіть середній діаметр деревостою</option>
 
-                        <?
+                        <?php 
                         $enum_params = mysqli_fetch_assoc(mysqli_query($dbc, "SHOW COLUMNS FROM wood_damage WHERE Field = 'diameter'"));
                         preg_match("/^enum\(\'(.*)\'\)$/", $enum_params['Type'], $res);
                         $enum = explode("','", $res['1']);
 
                         for($i = 0; $i < count($enum); $i++){
                     ?>
-                        <option value="<?echo $enum[$i]?>">
-                            <?echo $enum[$i] ?>
+                        <option value="<?php echo $enum[$i]?>">
+                            <?php echo $enum[$i] ?>
                         </option>
-                        <? 
+                        <?php  
                         }
                     ?>
                     </select>
@@ -109,7 +109,7 @@
         </section>
     </div>
 
-    <? include('../php/module/footer.php'); ?>
+    <?php  include('../php/module/footer.php'); ?>
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/skycons/1396634940/skycons.min.js'></script>
