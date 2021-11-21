@@ -25,11 +25,11 @@ const zoom = 11,
 const hourOne = 24,
     hourTwo = 48;
 
-async function calculate(latitude, longitude, fireType, burnabilityClass, avgHeghtCarbon, avgTreeDiameter, startPerimeter) {
-    const wetherObjJSON = await getWetherData(latitude, longitude);
+async function calculate(latitude, longitude, fireType, burnabilityClass, avgHeghtCarbon, avgTreeDiameter, startPerimeter, date) {
+    const accidentDate = new Date(date);
+    const unixAcidentDate = accidentDate.getTime() / 1000;
+    const wetherObjJSON = await getWetherData(latitude, longitude, unixAcidentDate);
     const wetherObj = JSON.parse(wetherObjJSON);
-
-    console.log(wetherObj)
 
     const temperature = wetherObj.currently.temperature, //            температура воздуха
         windSpeed = wetherObj.currently.windSpeed, //            скорость ветра

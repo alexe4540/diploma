@@ -3,6 +3,8 @@ const inputType = document.querySelector("#inputType"),
 
 let marker,
     msg = document.querySelector('#msg'),
+    dateCheckbox = document.querySelector('#dateNow'),
+    fdate = document.querySelector('input[name = fdate]'),
     latitude = document.querySelector("input[name = latitude]"),
     longitude = document.querySelector("input[name = longitude]"),
     fireType = document.querySelector("#fireType"),
@@ -12,21 +14,26 @@ let marker,
     startPerimeter = document.querySelector("input[name = startPerimeter]"),
     calc = document.querySelector('#calculateButton');
 
+    let latitudeIsValide = false,
+    longitudeIsValide = false,
+    dateIsValide = false;
+
 calc.addEventListener('click', () => {
     let resultSection = document.querySelector('#resultSection');
 
     msg.textContent = '';
     msg.className = '';
+    latitude.dispatchEvent(event);
+    longitude.dispatchEvent(event);
+    fdate.dispatchEvent(event);
    
-   let latitudeCheck = checkSelect(latitude);
-   let longitudeCheck = checkSelect(longitude);
-   let fireCheck = checkSelect(fireType);
-   let burnabilityClassCheck = checkSelect(burnabilityClass);
-   let avgHeghtCarbonCheck = checkSelect(avgHeghtCarbon);
-   let avgTreeDiameterCheck = checkSelect(avgTreeDiameter);
-   let startPerimeterCheck = checkSelect(startPerimeter);
+   let fireIsValide = checkSelect(fireType);
+   let burnabilityClassIsValide = checkSelect(burnabilityClass);
+   let avgHeghtCarbonIsValide = checkSelect(avgHeghtCarbon);
+   let avgTreeDiameterIsValide = checkSelect(avgTreeDiameter);
+   let startPerimeterIsValide = checkSelect(startPerimeter);
 
-    if (!latitudeCheck || !longitudeCheck || !fireCheck || !burnabilityClassCheck || !avgHeghtCarbonCheck || !avgTreeDiameterCheck || !startPerimeterCheck) {
+    if (!dateIsValide || !latitudeIsValide || !longitudeIsValide || !fireIsValide || !burnabilityClassIsValide || !avgHeghtCarbonIsValide || !avgTreeDiameterIsValide || !startPerimeterIsValide) {
         msg.textContent = 'Усі поля повинні бути заповнені!';
         msg.className = 'error-msg';
 
@@ -38,7 +45,7 @@ calc.addEventListener('click', () => {
     window.scrollTo(0, -200);
     if (marker) map.removeLayer(marker);
 
-    calculate(latitude.value, longitude.value, fireType.value, burnabilityClass.value, avgHeghtCarbon.value, avgTreeDiameter.value, startPerimeter.value);
+    calculate(latitude.value, longitude.value, fireType.value, burnabilityClass.value, avgHeghtCarbon.value, avgTreeDiameter.value, startPerimeter.value, fdate.value);
 });
 
 startPerimeter.addEventListener('change', () => {
@@ -66,6 +73,70 @@ inputType.addEventListener('change', function () {
             console.log('Ooooops...');
             break;
     }
+});
+
+latitude.addEventListener('change', () => {
+    msg.textContent = '';
+    msg.className = '';
+    latitude.className = '';
+
+    if (!latitude.value) {
+        msg.className = 'error-msg';
+        latitude.className = 'error-input';
+        latitudeIsValide = false;
+    } else {
+        latitudeIsValide = true;
+    }
+
+    return true;
+});
+
+longitude.addEventListener('change', () => {
+    msg.textContent = '';
+    msg.className = '';
+    longitude.className = '';
+
+    if (!longitude.value) {
+        msg.className = 'error-msg';
+        longitude.className = 'error-input';
+        longitudeIsValide = false;
+    } else {
+        longitudeIsValide = true;
+    }
+
+    return true;
+});
+
+dateCheckbox.addEventListener('change', () => {
+    if (dateCheckbox.checked) {
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        fdate.value = now.toISOString().slice(0, 16);
+        fdate.disabled = true;
+    } else {
+        fdate.value = '';
+        fdate.disabled = false;
+    }
+})
+
+fdate.addEventListener('change', () => {
+    const maxDate = new Date();
+    maxDate.setDate(maxDate.getDate() + 30);
+
+    msg.textContent = '';
+    msg.className = '';
+    fdate.className = '';
+
+    if (!fdate.value || maxDate.getTime() / 1000 < new Date(fdate.value).getTime() / 1000) {
+        msg.textContent = 'Прогнозування більше чім на місяц вперед буде давати велику похибку! Оберіть дату в рамках найближчих 30 днів.';
+        msg.className = 'error-msg';
+        fdate.className = 'error-input';
+        dateIsValide = false;
+    } else {
+        dateIsValide = true;
+    }
+
+    return true;
 });
 
 function drawMarker() {

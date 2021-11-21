@@ -1,8 +1,6 @@
 let zoom = 12;
 const routerName = "dbrouter",
-        height = 1, //                  высота обвалования              с формы
-        today = new Date(),
-        accidentTime = today.getHours() + ":" + today.getMinutes(), //    время аварии автоматом
+        height = 1, //                  высота обвалования              с формы       
         place = {
                 //                    инфа о местности                с формы
                 type: "відкрита",
@@ -30,7 +28,11 @@ const routerName = "dbrouter",
                 b: 190,
         };
 
-async function calculate(id, nhrType, nhrQuantity, provGasMasl) {
+async function calculate(id, nhrType, nhrQuantity, provGasMasl, date) {
+        const accidentDate = new Date(date);
+        const unixAcidentDate = accidentDate.getTime() / 1000;
+        const accidentTime = accidentDate.getHours() + ":" + accidentDate.getMinutes(); //    время аварии
+
         const factoryStr = await workWithBD("factory", routerName, {
                 id,
         });
@@ -41,9 +43,8 @@ async function calculate(id, nhrType, nhrQuantity, provGasMasl) {
                 peopleNum = +factoryArr[2], //    количество людей на обьекте
                 city = factoryArr[3]; //    город в котором находится обьект
 
-        const wetherObjJSON = await getWetherData(latitude, longitude);
+        const wetherObjJSON = await getWetherData(latitude, longitude, unixAcidentDate);
         const wetherObj = JSON.parse(wetherObjJSON);
-        console.log(wetherObj);
 
         const temperature = wetherObj.currently.temperature, //            температура воздуха
                 windSpeed = wetherObj.currently.windSpeed, //            скорость ветра

@@ -3,25 +3,32 @@ const inputType = document.querySelector("#inputType"),
 
 let marker,
     msg = document.querySelector('#msg'),
+    dateCheckbox = document.querySelector('#dateNow'),
+    fdate = document.querySelector('input[name = fdate]'),
     latitude = document.querySelector("input[name = latitude]"),
     longitude = document.querySelector("input[name = longitude]"),
     magnitude = document.querySelector("input[name = magnitude]"),
     depth = document.querySelector("input[name = depth]"),
     calc = document.querySelector('#calculateButton');
 
-let magnitudeCheck, depthCheck;
+let magnitudeIsValide = false,
+    depthIsValide = false,
+    latitudeIsValide = false,
+    longitudeIsValide = false,
+    dateIsValide = false;
 
 calc.addEventListener('click', () => {
     let resultSection = document.querySelector('#resultSection');
 
-    magnitudeCheck = true, depthCheck = true;
-
     msg.textContent = '';
     msg.className = '';
+    latitude.dispatchEvent(event);
+    longitude.dispatchEvent(event);
+    fdate.dispatchEvent(event);
     magnitude.dispatchEvent(event);
     depth.dispatchEvent(event);
 
-    if (!latitude.value || !longitude.value || !magnitudeCheck || !depthCheck){
+    if (!dateIsValide || !latitudeIsValide || !longitudeIsValide || !magnitudeIsValide || !depthIsValide) {
         msg.textContent = 'Усі поля повинні бути заповнені!';
         msg.className = 'error-msg';
 
@@ -45,8 +52,9 @@ magnitude.addEventListener('change', () => {
         msg.textContent = 'Магнітуда визначается значеннями від 1 до 9!';
         msg.className = 'error-msg';
         magnitude.className = 'error-input';
-        magnitudeCheck = false;
-        return ;
+        magnitudeIsValide = false;
+    } else {
+        magnitudeIsValide = true;
     }
 
     return true;
@@ -61,8 +69,9 @@ depth.addEventListener('change', () => {
         msg.textContent = 'Глибина гіпоцентру не може бути меньша 1 та більша радіуса Землі(6371км)!';
         msg.className = 'error-msg';
         depth.className = 'error-input';
-        depthCheck = false;
-        return ;
+        depthIsValide = false;
+    } else {
+        depthIsValide = true;
     }
 
     return true;
@@ -81,6 +90,70 @@ inputType.addEventListener('change', function () {
             console.log('Ooooops...');
             break;
     }
+});
+
+latitude.addEventListener('change', () => {
+    msg.textContent = '';
+    msg.className = '';
+    latitude.className = '';
+
+    if (!latitude.value) {
+        msg.className = 'error-msg';
+        latitude.className = 'error-input';
+        latitudeIsValide = false;
+    } else {
+        latitudeIsValide = true;
+    }
+
+    return true;
+});
+
+longitude.addEventListener('change', () => {
+    msg.textContent = '';
+    msg.className = '';
+    longitude.className = '';
+
+    if (!longitude.value) {
+        msg.className = 'error-msg';
+        longitude.className = 'error-input';
+        longitudeIsValide = false;
+    } else {
+        longitudeIsValide = true;
+    }
+
+    return true;
+});
+
+dateCheckbox.addEventListener('change', () => {
+    if (dateCheckbox.checked) {
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        fdate.value = now.toISOString().slice(0, 16);
+        fdate.disabled = true;
+    } else {
+        fdate.value = '';
+        fdate.disabled = false;
+    }
+})
+
+fdate.addEventListener('change', () => {
+    const maxDate = new Date();
+    maxDate.setDate(maxDate.getDate() + 30);
+
+    msg.textContent = '';
+    msg.className = '';
+    fdate.className = '';
+
+    if (!fdate.value || maxDate.getTime() / 1000 < new Date(fdate.value).getTime() / 1000) {
+        msg.textContent = 'Прогнозування більше чім на місяц вперед буде давати велику похибку! Оберіть дату в рамках найближчих 30 днів.';
+        msg.className = 'error-msg';
+        fdate.className = 'error-input';
+        dateIsValide = false;
+    } else {
+        dateIsValide = true;
+    }
+
+    return true;
 });
 
 function drawMarker() {

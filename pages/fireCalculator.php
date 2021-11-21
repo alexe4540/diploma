@@ -21,10 +21,17 @@
         <section>
             <div class="nhr-container container">
                 <div id="map" class="pagePart"></div>
-                <div class="form-container" style="height: 512px; overflow-y: auto;">
+                <div class="form-container">
                     <div id="msg"></div>
 
-                    <label for="fname"><b>Варіант вводу координат землетрусу</b></label>
+                    <label for="fdate"><b>Час виникнення пожежі</b></label>
+                    <div class="checkbox">
+                        <input type="checkbox" id="dateNow" name="dateNow">
+                        <label for="dateNow" style="display: inline">На момент розрахунку</label>
+                    </div>
+                    <input name="fdate" type="datetime-local" required>
+
+                    <label for="fname"><b>Варіант вводу координат пожежі</b></label>
                     <select name="inputType" id="inputType">
                         <option value="" disabled selected>--Оберіть варіант вводу--</option>
                         <option value="marker">Маркер на мапі</option>
