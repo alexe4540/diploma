@@ -11,10 +11,12 @@ if (!empty($uname) && !empty($pass)) {
         if ($row['role'] == 'admin') {
            $_SESSION['role'] = 'admin';
            $_SESSION["uname"] = $row['uname'];
+           $_SESSION["user_id"] = $row['user_id'];
            header("Location:" . "./../pages/adminPanel.php");
         } else if ($row['role'] == 'moderator'){
             $_SESSION['role'] = 'moderator';
             $_SESSION["uname"] = $row['uname'];
+            $_SESSION["user_id"] = $row['user_id'];
             header("Location:" . "./../pages/moderPanel.php");
         }
         exit();

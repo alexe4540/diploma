@@ -23,7 +23,7 @@ addUserButton.addEventListener('click', async function(){
 
     if (validate({uname, pass, role}, msg)) return null;
 
-    let successInsert = await workWithBD('insertUser', 'moderRouter', {uname: uname.value, pass: pass.value, role: role.value});
+    let successInsert = await apiRequest('insertUser', 'moderRouter', {uname: uname.value, pass: pass.value, role: role.value});
     
     if (successInsert){
         msg.textContent = 'Дані успішно додано!';
@@ -39,7 +39,7 @@ addUserButton.addEventListener('click', async function(){
 })
 
 async function deleteFromDB(id){
-    let successDelete = await workWithBD('deleteUser', 'moderRouter', {user_id: id});
+    let successDelete = await apiRequest('deleteUser', 'moderRouter', {user_id: id});
     
     if(successDelete){
         document.location.reload(true);

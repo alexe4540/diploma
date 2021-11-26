@@ -50,12 +50,12 @@ async function calculate(latitude, longitude, fireType, burnabilityClass, avgHeg
         newSquareTwo = getSquareInHours(newPerimeterTwo),
         unusableWood = getUnusableWood(fireType, burnabilityClass);
 
-    let woodDamage = await workWithBD("wood_damage", routerName, {
+    let woodDamage = await apiRequest("wood_damage", routerName, {
         avgTreeDiameter,
         avgHeghtCarbon,
         burnabilityClass
     });
-    let woodDamageCharJSON = await workWithBD("wood_damage_char", routerName, {
+    let woodDamageCharJSON = await apiRequest("wood_damage_char", routerName, {
         woodDamage,
     });
 

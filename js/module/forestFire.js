@@ -12,7 +12,8 @@ let marker,
     avgHeghtCarbon = document.querySelector("#avgHeghtCarbon"),
     avgTreeDiameter = document.querySelector("#avgTreeDiameter"),
     startPerimeter = document.querySelector("input[name = startPerimeter]"),
-    calc = document.querySelector('#calculateButton');
+    calc = document.querySelector('#calculateButton'),
+    saveButton = document.querySelector('#saveButton');
 
     let latitudeIsValide = false,
     longitudeIsValide = false,
@@ -39,13 +40,42 @@ calc.addEventListener('click', () => {
 
         return false;
     }
-
-    resultSection.style.display = 'block';
-
+    
     window.scrollTo(0, -200);
     if (marker) map.removeLayer(marker);
-
+    
     calculate(latitude.value, longitude.value, fireType.value, burnabilityClass.value, avgHeghtCarbon.value, avgTreeDiameter.value, startPerimeter.value, fdate.value);
+   
+    setTimeout(() => {
+        resultSection.style.display = 'block';
+    }, 2000);
+});
+
+saveButton.addEventListener('click', async function() {
+    const cnvs = document.querySelector("canvas")
+
+    let imageName = getRandomString() + '.png';
+    let imageDataURL = cnvs.toDataURL('image/png');
+
+    let resultImgSave = await apiRequest('saveImg', 'imgRouter', {img_name: imageName, img_data_url: imageDataURL});
+    let resultDBSave = await apiRequest('saveFireInitData', 'initDataRouter', {
+        id_cat_type: 3,
+        cat_date: fdate.value,
+        zone_pic: imageName,
+        longitude: longitude.value,
+        latitude: latitude.value,
+        fire_type: fireType.value,
+        burnability_class: burnabilityClass.value,
+        avg_heght_carbon: avgHeghtCarbon.value,
+        avg_tree_diameter: avgTreeDiameter.value,
+        start_perimeter: startPerimeter.value,
+    });
+
+    if(resultImgSave && resultDBSave) {
+        alert("Дані успішно збережені");
+    } else {
+        alert("Помилка збереження даних");
+    }
 });
 
 startPerimeter.addEventListener('change', () => {

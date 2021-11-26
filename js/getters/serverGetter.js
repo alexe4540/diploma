@@ -1,4 +1,4 @@
-async function workWithBD(funcName, router, data) {
+async function apiRequest(funcName, router, data) {
     let url = `../../router/${router}.php?func=${funcName}`;
     let response = await fetch(url, {
         method: 'POST',

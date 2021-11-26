@@ -33,7 +33,7 @@ async function calculate(id, nhrType, nhrQuantity, provGasMasl, date) {
         const unixAcidentDate = accidentDate.getTime() / 1000;
         const accidentTime = accidentDate.getHours() + ":" + accidentDate.getMinutes(); //    время аварии
 
-        const factoryStr = await workWithBD("factory", routerName, {
+        const factoryStr = await apiRequest("factory", routerName, {
                 id,
         });
         const factoryArr = factoryStr.split("|");
@@ -61,13 +61,13 @@ async function calculate(id, nhrType, nhrQuantity, provGasMasl, date) {
 
         const timeOfDay = getTimeOfDay(accidentTime); //Время суток
 
-        const degreeOfVerticalStability = await workWithBD("vertical", routerName, {
+        const degreeOfVerticalStability = await apiRequest("vertical", routerName, {
                 timeOfDay,
                 cloudiness,
                 windSpeed,
         }); //ступінь вертикальної стійкості
 
-        const tablDeptZone = await workWithBD("tabledeptvalue", routerName, {
+        const tablDeptZone = await apiRequest("tabledeptvalue", routerName, {
                 nhrQuantity,
                 nhrType,
                 degreeOfVerticalStability,
@@ -75,12 +75,12 @@ async function calculate(id, nhrType, nhrQuantity, provGasMasl, date) {
                 windSpeed,
         }); //Гт - табличне значення глибини зони
 
-        const ksx = await workWithBD("nhr_cloud", routerName, {
+        const ksx = await apiRequest("nhr_cloud", routerName, {
                 nhrType,
                 height,
         }); //Ксх - коефіцієнт, що враховує тип сховища і характеризує зменшення глибини розповсюдження хмари НХР при виливі "у піддон"
 
-        const kzm = await workWithBD("koef_kzm", routerName, {
+        const kzm = await apiRequest("koef_kzm", routerName, {
                 degreeOfVerticalStability,
                 palce: place["place"],
         }); //Кзм - коефіцієнт зменшення глибини розповсюдження хмари НХР для кожного 1 км довжини закритої місцевост
@@ -89,7 +89,7 @@ async function calculate(id, nhrType, nhrQuantity, provGasMasl, date) {
 
         const deptCalculatedZone = getDeptCalculatedZone(tablDeptZone, ksx, deptDecr); //розрахункової глибини отримане значення Гр
 
-        const transferSpeed = await workWithBD("v_transfer", routerName, {
+        const transferSpeed = await apiRequest("v_transfer", routerName, {
                 windSpeed,
                 degreeOfVerticalStability,
         }); //W - швидкість переносу повітряних мас
@@ -122,14 +122,14 @@ async function calculate(id, nhrType, nhrQuantity, provGasMasl, date) {
         const N = 4; //N – час, на який розраховується глибина ПЗХЗ
         const squarePredictedZone = getSquarePredictedZone(K, forecastDeptZone, N); //Площа прогнозованої зони хімічного забруднення (ПЗХЗ)
 
-        const pollutionDuration = await workWithBD("pollution_duration", routerName, {
+        const pollutionDuration = await apiRequest("pollution_duration", routerName, {
                 nhrType,
                 height,
                 temperature,
                 windSpeed,
         });
 
-        const percentOfLoss = await workWithBD("population_loss", routerName, {
+        const percentOfLoss = await apiRequest("population_loss", routerName, {
                 place: place.type,
                 provGasMasl,
         });
@@ -183,7 +183,7 @@ async function calculate(id, nhrType, nhrQuantity, provGasMasl, date) {
 
         const peopleLossDamage = getPeopleLossDamage(peopleLoss);
 
-        const cityInfoStr = await workWithBD("agriculture", routerName, {
+        const cityInfoStr = await apiRequest("agriculture", routerName, {
                 city,
         });
         const cityInfo = cityInfoStr.split("|");
@@ -212,5 +212,8 @@ async function calculate(id, nhrType, nhrQuantity, provGasMasl, date) {
                         waterDamage.toFixed(2)
                 ]
         ], 'Таблиця 2 - Результати оцінки прогнозованого еколого-економічного збитку')
-}
+};
 
+async function save(id, nhrType, nhrQuantity, provGasMasl, date) {
+
+}

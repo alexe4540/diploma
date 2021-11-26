@@ -17,7 +17,7 @@ add.addEventListener('click', async () => {
 
     if (validate({oname, longitude, latitude, wcount, city}, msg)) return null;
 
-    let successInsert = await workWithBD('insert', 'moderRouter', {oname: oname.value, longitude: longitude.value, latitude: latitude.value, wcount: wcount.value, city: city.value});
+    let successInsert = await apiRequest('insert', 'moderRouter', {oname: oname.value, longitude: longitude.value, latitude: latitude.value, wcount: wcount.value, city: city.value});
     
     if (successInsert){
         msg.textContent = 'Дані успішно додано!';

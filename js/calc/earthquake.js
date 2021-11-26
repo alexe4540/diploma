@@ -39,23 +39,23 @@ async function calculate(latitude, longitude, magnitude, depth) {
 	let epicentrEffect, firstEffect, secondEffect;
 
 	if (epicentrIntensity < 1) {
-		epicentrEffect = await workWithBD('earthquakeeffects', routerName, {
+		epicentrEffect = await apiRequest('earthquakeeffects', routerName, {
 				intensity: 1
 			}),
-			firstEffect = await workWithBD('earthquakeeffects', routerName, {
+			firstEffect = await apiRequest('earthquakeeffects', routerName, {
 				intensity: 1
 			}),
-			secondEffect = await workWithBD('earthquakeeffects', routerName, {
+			secondEffect = await apiRequest('earthquakeeffects', routerName, {
 				intensity: 1
 			});
 	} else {
-		epicentrEffect = await workWithBD('earthquakeeffects', routerName, {
+		epicentrEffect = await apiRequest('earthquakeeffects', routerName, {
 				intensity: epicentrIntensity
 			}),
-			firstEffect = await workWithBD('earthquakeeffects', routerName, {
+			firstEffect = await apiRequest('earthquakeeffects', routerName, {
 				intensity: firstZone
 			}),
-			secondEffect = await workWithBD('earthquakeeffects', routerName, {
+			secondEffect = await apiRequest('earthquakeeffects', routerName, {
 				intensity: secondZone
 			});
 	}
@@ -96,13 +96,13 @@ async function calculate(latitude, longitude, magnitude, depth) {
 		secondZoneDeath;
 
 	if (epicentrIntensity < 7) {
-		let epicentrDeathJSON = await workWithBD('earthqueakedeath', routerName, {
+		let epicentrDeathJSON = await apiRequest('earthqueakedeath', routerName, {
 				intensity: 0
 			}),
-			firstZoneDeathJSON = await workWithBD('earthqueakedeath', routerName, {
+			firstZoneDeathJSON = await apiRequest('earthqueakedeath', routerName, {
 				intensity: 0
 			}),
-			secondZoneDeathJSON = await workWithBD('earthqueakedeath', routerName, {
+			secondZoneDeathJSON = await apiRequest('earthqueakedeath', routerName, {
 				intensity: 0
 			});
 
@@ -110,13 +110,13 @@ async function calculate(latitude, longitude, magnitude, depth) {
 		firstZoneDeath = JSON.parse(firstZoneDeathJSON);
 		secondZoneDeath = JSON.parse(secondZoneDeathJSON);
 	} else {
-		let epicentrDeathJSON = await workWithBD('earthqueakedeath', routerName, {
+		let epicentrDeathJSON = await apiRequest('earthqueakedeath', routerName, {
 				intensity: epicentrIntensity
 			}),
-			firstZoneDeathJSON = await workWithBD('earthqueakedeath', routerName, {
+			firstZoneDeathJSON = await apiRequest('earthqueakedeath', routerName, {
 				intensity: firstZone
 			}),
-			secondZoneDeathJSON = await workWithBD('earthqueakedeath', routerName, {
+			secondZoneDeathJSON = await apiRequest('earthqueakedeath', routerName, {
 				intensity: secondZone
 			});
 
@@ -150,13 +150,13 @@ async function calculate(latitude, longitude, magnitude, depth) {
 		secondZoneSystem;
 
 	if (epicentrIntensity < 7) {
-		let epicentrSystemJSON = await workWithBD('earthqueakesystem', routerName, {
+		let epicentrSystemJSON = await apiRequest('earthqueakesystem', routerName, {
 				intensity: 0
 			}),
-			firstZoneSystemJSON = await workWithBD('earthqueakesystem', routerName, {
+			firstZoneSystemJSON = await apiRequest('earthqueakesystem', routerName, {
 				intensity: 0
 			}),
-			secondZoneSystemJSON = await workWithBD('earthqueakesystem', routerName, {
+			secondZoneSystemJSON = await apiRequest('earthqueakesystem', routerName, {
 				intensity: 0
 			});
 
@@ -165,13 +165,13 @@ async function calculate(latitude, longitude, magnitude, depth) {
 		firstZoneSystem = JSON.parse(firstZoneSystemJSON);
 		secondZoneSystem = JSON.parse(secondZoneSystemJSON);
 	} else {
-		let epicentrSystemJSON = await workWithBD('earthqueakesystem', routerName, {
+		let epicentrSystemJSON = await apiRequest('earthqueakesystem', routerName, {
 				intensity: epicentrIntensity
 			}),
-			firstZoneSystemJSON = await workWithBD('earthqueakesystem', routerName, {
+			firstZoneSystemJSON = await apiRequest('earthqueakesystem', routerName, {
 				intensity: firstZone
 			}),
-			secondZoneSystemJSON = await workWithBD('earthqueakesystem', routerName, {
+			secondZoneSystemJSON = await apiRequest('earthqueakesystem', routerName, {
 				intensity: secondZone
 			});
 

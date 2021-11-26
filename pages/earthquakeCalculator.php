@@ -57,11 +57,12 @@
         <section id="resultSection" style="display: none">
             <div class="nhr-container container">
                 <div id="mapImg" class="pagePart"></div>
-                <div id="resultTable" class="vertical"></div>
-            </div>
-            <div class="nhr-container container">
-                <div id="damageTable" class="vertical"></div>
-                <div id="lifeSupportSystems" class="vertical"></div>
+                <div class="pagePart">
+                    <div id="resultTable" class="vertical"></div>
+                    <div id="damageTable" class="vertical"></div>
+                    <div id="lifeSupportSystems" class="vertical"></div>
+                    <button id="saveButton" class="save-button">Зберегти розрахунок</button>
+                </div>
             </div>
         </section>
     </div>
@@ -69,6 +70,7 @@
     <?php  include('../php/module/footer.php'); ?>
 
     <script src="/js/helpers/readJSON.js"></script>
+    <script src="/js/getters/localGetter.js"></script>
     <script src="/js/getters/serverGetter.js"></script>
     <script src="/js/helpers/drawOnCanvas.js"></script>
     <script src="/js/helpers/drawTable.js"></script>
