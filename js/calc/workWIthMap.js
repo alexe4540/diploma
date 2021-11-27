@@ -16,11 +16,20 @@ async function workWIthMap(coordinates, scale) {
     });
 }
 
-const map = L.map('map').setView([50.452554, 30.561522], 5);
-L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-L.control.scale().addTo(map);
+let map;
+
+(() => {
+    const params = new URLSearchParams(document.location.search.substring(1));
+    const id_cat = params.get("id_cat");
+
+    if (!id_cat) {
+        map = L.map('map').setView([50.452554, 30.561522], 5);
+        L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        L.control.scale().addTo(map);
+    }
+})();
 
 function goFunc() {
     html2canvas(document.querySelector("#map"), {

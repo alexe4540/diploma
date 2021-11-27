@@ -25,7 +25,7 @@ const zoom = 11,
 const hourOne = 24,
     hourTwo = 48;
 
-async function calculate(latitude, longitude, fireType, burnabilityClass, avgHeghtCarbon, avgTreeDiameter, startPerimeter, date) {
+async function calculate(latitude, longitude, fireType, burnabilityClass, avgHeghtCarbon, avgTreeDiameter, startPerimeter, date, imageData) {
     const accidentDate = new Date(date);
     const unixAcidentDate = accidentDate.getTime() / 1000;
     const wetherObjJSON = await getWetherData(latitude, longitude, unixAcidentDate);
@@ -60,33 +60,44 @@ async function calculate(latitude, longitude, fireType, burnabilityClass, avgHeg
     });
 
     let woodDamageChar = JSON.parse(woodDamageCharJSON);
-
-    await workWIthMap({
+    if (!imageData) {
+        await workWIthMap({
             latitude,
             longitude,
         },
-        zoom
-    );
-
-    const canvas = document.querySelector('#canvas');
+            zoom
+        );
+    }
 
     let radiusCircle = getRadius(startPerimeter);
     let sCircle = Math.ceil((Math.PI * Math.pow(radiusCircle, 2)) / 10000);
-    drawOnMap('drawArc', zoneBorderColorRGB, canvas, latitude, longitude, zoom, radiusCircle / 1000);
-
     let radiusNewCircleOne = getRadius(newPerimeterOne);
     let axisOne = getAxis(radiusNewCircleOne, linearFireFrontSpeed, linearFireRearSpeed, hourOne)
     let semiaxisOne = getSemiaxis(axisOne);
     let semiordinatOne = radiusNewCircleOne;
-    drawOnMap('drawFireZone', zoneBorderColorRGB2, canvas, latitude, longitude, zoom, [semiaxisOne, semiordinatOne], windAzimut);
-
     let radiusNewCircleTwo = getRadius(newPerimeterTwo);
     let axisTwo = getAxis(radiusNewCircleTwo, linearFireFrontSpeed, linearFireRearSpeed, hourTwo)
     let semiaxisTwo = getSemiaxis(axisTwo);
     let semiordinatTwo = radiusNewCircleTwo;
-    drawOnMap('drawFireZone', zoneBorderColorRGB3, canvas, latitude, longitude, zoom, [semiaxisTwo, semiordinatTwo], windAzimut);
+    const canvas = document.querySelector('#canvas');
+    if (imageData) {
+        const context = canvas.getContext('2d');
 
+        base_image = new Image();
+        base_image.src = `../../saved_img/${imageData}`;
+        setTimeout(() => {
+            context.drawImage(base_image, 0, 0);
+            drawRasults(sCircle, startPerimeter, newSquareOne, newPerimeterOne, newSquareTwo, newPerimeterTwo, woodDamageChar, wetherClass, linearFireFrontSpeed, linearFireWingSpeed, linearFireRearSpeed, unusableWood);
+        }, 2000);
+    } else {
+        drawOnMap('drawArc', zoneBorderColorRGB, canvas, latitude, longitude, zoom, radiusCircle / 1000);
+        drawOnMap('drawFireZone', zoneBorderColorRGB2, canvas, latitude, longitude, zoom, [semiaxisOne, semiordinatOne], windAzimut);
+        drawOnMap('drawFireZone', zoneBorderColorRGB3, canvas, latitude, longitude, zoom, [semiaxisTwo, semiordinatTwo], windAzimut);
+        drawRasults(sCircle, startPerimeter, newSquareOne, newPerimeterOne, newSquareTwo, newPerimeterTwo, woodDamageChar, wetherClass, linearFireFrontSpeed, linearFireWingSpeed, linearFireRearSpeed, unusableWood);
+    }
+};
 
+async function drawRasults(sCircle, startPerimeter, newSquareOne, newPerimeterOne, newSquareTwo, newPerimeterTwo, woodDamageChar, wetherClass, linearFireFrontSpeed, linearFireWingSpeed, linearFireRearSpeed, unusableWood) {
     createTable('resultTable', [
         ['Час',
             'Площа лісової пожежі, Га ',
@@ -132,7 +143,7 @@ async function calculate(latitude, longitude, fireType, burnabilityClass, avgHeg
             res
         ]
     ], 'Таблиця 2 - Загальні відомостіпро пожежу');
-};
+}
 
 function getS(square) {
     return square * 10000;

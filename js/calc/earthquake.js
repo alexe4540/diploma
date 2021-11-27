@@ -19,19 +19,35 @@ const routerName = "dbrouter",
 	};
 
 
-async function calculate(latitude, longitude, magnitude, depth) {
-	await workWIthMap({
+async function calculate(latitude, longitude, magnitude, depth, imageData) {
+	if (!imageData) {
+		await workWIthMap({
 			latitude,
 			longitude,
 		},
-		zoom
-	);
+			zoom
+		);
+	}
 
 	const canvas = document.querySelector('#canvas');
-	drawOnMap('drawArc', epicentrZoneBorderColorRGB, canvas, latitude, longitude, zoom, 1);
-	drawOnMap('drawArc', dangerZoneBorderColorRGB, canvas, latitude, longitude, zoom, 10);
-	drawOnMap('drawArc', midleDangerZoneBorderColorRGB, canvas, latitude, longitude, zoom, 20);
+	if (imageData) {
+		const context = canvas.getContext('2d');
 
+		base_image = new Image();
+		base_image.src = `../../saved_img/${imageData}`;
+		setTimeout(() => {
+			context.drawImage(base_image, 0, 0);
+			drawRasults(magnitude, depth)
+		}, 2000);
+	} else {
+		drawOnMap('drawArc', epicentrZoneBorderColorRGB, canvas, latitude, longitude, zoom, 1);
+		drawOnMap('drawArc', dangerZoneBorderColorRGB, canvas, latitude, longitude, zoom, 10);
+		drawOnMap('drawArc', midleDangerZoneBorderColorRGB, canvas, latitude, longitude, zoom, 20);
+		drawRasults(magnitude, depth)
+	}
+}
+
+async function drawRasults(magnitude, depth) {
 	let epicentrIntensity = getIntensityEpicentr(magnitude, depth),
 		firstZone = getIntensity(magnitude, depth, 10),
 		secondZone = getIntensity(magnitude, depth, 20);
@@ -40,8 +56,8 @@ async function calculate(latitude, longitude, magnitude, depth) {
 
 	if (epicentrIntensity < 1) {
 		epicentrEffect = await apiRequest('earthquakeeffects', routerName, {
-				intensity: 1
-			}),
+			intensity: 1
+		}),
 			firstEffect = await apiRequest('earthquakeeffects', routerName, {
 				intensity: 1
 			}),
@@ -50,8 +66,8 @@ async function calculate(latitude, longitude, magnitude, depth) {
 			});
 	} else {
 		epicentrEffect = await apiRequest('earthquakeeffects', routerName, {
-				intensity: epicentrIntensity
-			}),
+			intensity: epicentrIntensity
+		}),
 			firstEffect = await apiRequest('earthquakeeffects', routerName, {
 				intensity: firstZone
 			}),
@@ -97,8 +113,8 @@ async function calculate(latitude, longitude, magnitude, depth) {
 
 	if (epicentrIntensity < 7) {
 		let epicentrDeathJSON = await apiRequest('earthqueakedeath', routerName, {
-				intensity: 0
-			}),
+			intensity: 0
+		}),
 			firstZoneDeathJSON = await apiRequest('earthqueakedeath', routerName, {
 				intensity: 0
 			}),
@@ -111,8 +127,8 @@ async function calculate(latitude, longitude, magnitude, depth) {
 		secondZoneDeath = JSON.parse(secondZoneDeathJSON);
 	} else {
 		let epicentrDeathJSON = await apiRequest('earthqueakedeath', routerName, {
-				intensity: epicentrIntensity
-			}),
+			intensity: epicentrIntensity
+		}),
 			firstZoneDeathJSON = await apiRequest('earthqueakedeath', routerName, {
 				intensity: firstZone
 			}),
@@ -151,8 +167,8 @@ async function calculate(latitude, longitude, magnitude, depth) {
 
 	if (epicentrIntensity < 7) {
 		let epicentrSystemJSON = await apiRequest('earthqueakesystem', routerName, {
-				intensity: 0
-			}),
+			intensity: 0
+		}),
 			firstZoneSystemJSON = await apiRequest('earthqueakesystem', routerName, {
 				intensity: 0
 			}),
@@ -166,8 +182,8 @@ async function calculate(latitude, longitude, magnitude, depth) {
 		secondZoneSystem = JSON.parse(secondZoneSystemJSON);
 	} else {
 		let epicentrSystemJSON = await apiRequest('earthqueakesystem', routerName, {
-				intensity: epicentrIntensity
-			}),
+			intensity: epicentrIntensity
+		}),
 			firstZoneSystemJSON = await apiRequest('earthqueakesystem', routerName, {
 				intensity: firstZone
 			}),
@@ -193,7 +209,6 @@ async function calculate(latitude, longitude, magnitude, depth) {
 	createTable('lifeSupportSystems', systemArr, 'Таблиця 3 - Стійкість систем життєзабезпечення, %', 'Примітка: У чисельнику -% систем життєзабезпечення, здатних до функціонуванню негайно, а в знаменнику - після відновлювальних робіт в Протягом доби.');
 
 }
-
 
 function getIntensityEpicentr(magnitude, depth) {
 	return Math.round(1.5 * magnitude - 3.5 * Math.log10(depth) + 3);

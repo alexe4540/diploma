@@ -214,3 +214,73 @@
 
       echo $res["d_class"];
    }
+
+   function getCatList($dbc) {
+      $list =  mysqli_query($dbc,
+         "select cid.id_cat, ct.id_cat_type, u.uname, ct.name, cid.cat_date, cid.zone_pic, f.longitude, f.latitude
+         from cat_initial_data cid
+         left join users u on (cid.user_id = u.user_id)
+         join cat_type ct on (cid.id_cat_type = ct.id_cat_type)
+         join nhr_initial_data nid on (cid.id_cat = nid.id_cat)
+         join factory f on (nid.f_id = f.f_id)
+         union all
+         select cid.id_cat, ct.id_cat_type, u.uname, ct.name, cid.cat_date, cid.zone_pic, eid.longitude, eid.latitude
+         from cat_initial_data cid
+         left join users u on (cid.user_id = u.user_id)
+         join cat_type ct on (cid.id_cat_type = ct.id_cat_type)
+         join earth_initial_data eid on (cid.id_cat = eid.id_cat)
+         union all
+         select cid.id_cat, ct.id_cat_type, u.uname, ct.name, cid.cat_date, cid.zone_pic, fid.longitude, fid.latitude
+         from cat_initial_data cid
+         left join users u on (cid.user_id = u.user_id)
+         join cat_type ct on (cid.id_cat_type = ct.id_cat_type)
+         join fire_initial_data fid on (cid.id_cat = fid.id_cat)");
+      
+      $rows = array();
+      while($row = mysqli_fetch_object($list)) {
+         array_push($rows, $row);
+      }
+      echo json_encode($rows);
+   }
+
+   function getNhrData($dbc, $data) {
+      $id_cat = $data['id_cat'];
+
+      $nhrData = mysqli_query($dbc, 
+         "select *
+         from cat_initial_data cid
+         join nhr_initial_data nid on (cid.id_cat = nid.id_cat)
+         where cid.id_cat = '$id_cat'"
+      );
+      $res = mysqli_fetch_assoc($nhrData);
+
+      return json_encode($res);
+   }
+
+   function getEarthData($dbc, $data) {
+      $id_cat = $data['id_cat'];
+
+      $earthData = mysqli_query($dbc, 
+         "select *
+         from cat_initial_data cid
+         join earth_initial_data eid on (cid.id_cat = eid.id_cat)
+         where cid.id_cat = '$id_cat'"
+      );
+      $res = mysqli_fetch_assoc($earthData);
+
+      return json_encode($res);
+   }
+
+   function getFireData($dbc, $data) {
+      $id_cat = $data['id_cat'];
+
+      $fireData = mysqli_query($dbc, 
+         "select *
+         from cat_initial_data cid
+         join fire_initial_data fid on (cid.id_cat = fid.id_cat)
+         where cid.id_cat = '$id_cat'"
+      );
+      $res = mysqli_fetch_assoc($fireData);
+
+      return json_encode($res);
+   }
