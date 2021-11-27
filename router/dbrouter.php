@@ -60,3 +60,19 @@
     if($_GET["func"] == "wood_damage_char"){
         echo getWoodDamageChar($dbc, $data);
     }
+
+    if($_GET["func"] == "cat_list"){
+        echo getCatList($dbc);
+    }
+
+    if($_GET["func"] == "getNhrData"){
+        echo getNhrData($dbc, $data);
+    }
+    
+    if($_GET["func"] == "getEarthData"){
+        echo getEarthData($dbc, $data);
+    }
+
+    if($_GET["func"] == "getFireData"){
+        echo getFireData($dbc, $data);
+    }

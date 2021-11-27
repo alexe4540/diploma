@@ -28,7 +28,7 @@ const routerName = "dbrouter",
                 b: 190,
         };
 
-async function calculate(id, nhrType, nhrQuantity, provGasMasl, date) {
+async function calculate(id, nhrType, nhrQuantity, provGasMasl, date, imageData) {
         const accidentDate = new Date(date);
         const unixAcidentDate = accidentDate.getTime() / 1000;
         const accidentTime = accidentDate.getHours() + ":" + accidentDate.getMinutes(); //    время аварии
@@ -54,10 +54,10 @@ async function calculate(id, nhrType, nhrQuantity, provGasMasl, date) {
 
         cloudiness =
                 cloudiness == "Ясно" ?
-                cloudiness :
-                cloudiness == "Хмарно" ?
-                cloudiness :
-                "Напівясно";
+                        cloudiness :
+                        cloudiness == "Хмарно" ?
+                                cloudiness :
+                                "Напівясно";
 
         const timeOfDay = getTimeOfDay(accidentTime); //Время суток
 
@@ -137,19 +137,34 @@ async function calculate(id, nhrType, nhrQuantity, provGasMasl, date) {
 
         const meterperPixel = metersPerPixel(latitude, zoom);
 
-        await workWIthMap({
+        if (!imageData) {
+                await workWIthMap({
                         latitude,
                         longitude,
                 },
-                zoom
-        );
-
-        const semiaxisA = (forecastDeptZone * 1000) / 2;
-        const semiaxisB = (widthForecastZone * 1000) / 2;
+                        zoom
+                );
+        }
 
         const canvas = document.querySelector('#canvas');
-        drawOnMap('drawEllipse', zoneBorderColorRGB, canvas, latitude, longitude, zoom, [semiaxisA, semiaxisB], windAzimut);
+        if (imageData) {
+                const context = canvas.getContext('2d');
 
+                base_image = new Image();
+                base_image.src = `../../saved_img/${imageData}`;
+                setTimeout(() => {
+                        context.drawImage(base_image, 0, 0);
+                        drawRasults(nhrType, nhrQuantity, forecastDeptZone, widthForecastZone, squarePredictedZone, squarePossibleZone, pollutionDuration, peopleLoss, meterperPixel, city)
+                }, 2000);
+        } else {
+                const semiaxisA = (forecastDeptZone * 1000) / 2;
+                const semiaxisB = (widthForecastZone * 1000) / 2;
+                drawOnMap('drawEllipse', zoneBorderColorRGB, canvas, latitude, longitude, zoom, [semiaxisA, semiaxisB], windAzimut);
+                drawRasults(nhrType, nhrQuantity, forecastDeptZone, widthForecastZone, squarePredictedZone, squarePossibleZone, pollutionDuration, peopleLoss, meterperPixel, city)
+        }
+};
+
+async function drawRasults(nhrType, nhrQuantity, forecastDeptZone, widthForecastZone, squarePredictedZone, squarePossibleZone, pollutionDuration, peopleLoss, meterperPixel, city) {
         createTable('resultTable', [
                 [
                         "Тип НХР, кількість, тон",
@@ -211,9 +226,5 @@ async function calculate(id, nhrType, nhrQuantity, provGasMasl, date) {
                         foresDamage.toFixed(2),
                         waterDamage.toFixed(2)
                 ]
-        ], 'Таблиця 2 - Результати оцінки прогнозованого еколого-економічного збитку')
-};
-
-async function save(id, nhrType, nhrQuantity, provGasMasl, date) {
-
+        ], 'Таблиця 2 - Результати оцінки прогнозованого еколого-економічного збитку');
 }

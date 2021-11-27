@@ -1,6 +1,6 @@
-<?php  
-    session_start();
-    include("../config/conection.php"); 
+<?php
+session_start();
+include("../config/conection.php");
 ?>
 
 <!DOCTYPE html>
@@ -19,91 +19,97 @@
     <?php include('./../php/module/header.html'); ?>
     <div class="Site-content">
         <section>
-            <div class="nhr-container container">
-                <div id="map" class="pagePart"></div>
-                <div class="form-container">
-                    <div id="msg"></div>
+            <?php
+            if (!isset($_GET['id_cat'])) {
+            ?>
+                <div class="nhr-container container">
+                    <div id="map" class="pagePart"></div>
+                    <div class="form-container">
+                        <div id="msg"></div>
 
-                    <label for="fdate"><b>Час виникнення пожежі</b></label>
-                    <div class="checkbox">
-                        <input type="checkbox" id="dateNow" name="dateNow">
-                        <label for="dateNow" style="display: inline">На момент розрахунку</label>
+                        <label for="fdate"><b>Час виникнення пожежі</b></label>
+                        <div class="checkbox">
+                            <input type="checkbox" id="dateNow" name="dateNow">
+                            <label for="dateNow" style="display: inline">На момент розрахунку</label>
+                        </div>
+                        <input name="fdate" type="datetime-local" required>
+
+                        <label for="fname"><b>Варіант вводу координат пожежі</b></label>
+                        <select name="inputType" id="inputType">
+                            <option value="" disabled selected>--Оберіть варіант вводу--</option>
+                            <option value="marker">Маркер на мапі</option>
+                            <option value="coordinates">Координати місця винекнення</option>
+                        </select>
+
+                        <label for="latitude"><b>Широта</b></label>
+                        <input type="number" placeholder="Введіть широту" name="latitude" required disabled>
+
+                        <label for="longitude"><b>Довгота</b></label>
+                        <input type="number" placeholder="Введіть довготу" name="longitude" required disabled>
+
+                        <label for="fireType"><b>Вид пожежі</b></label>
+                        <select id="fireType" name="fireType">
+                            <option value="" disabled selected>--Оберіть вид пожежі--</option>
+                            <option value="1">Верховий стійкий</option>
+                            <option value="2">Верховий побіжний</option>
+                            <option value="3">Низовий</option>
+                        </select>
+
+                        <label for="burnabilityClass"><b>Клас горимості лісових насаджень</b></label>
+                        <select id="burnabilityClass" name="burnabilityClass">
+                            <option value="" disabled selected>--Оберіть клас горимості--</option>
+                            <option value="1">Чисті і з домішкою листяних порід хвойні насадження (крім модринових)</option>
+                            <option value="2">Чисті з домішкою хвойних порід листяні насадження, а також модринові насадження</option>
+                        </select>
+
+                        <label for="avgHeghtCarbon"><b>Середня висота нагару</b></label>
+                        <select id='avgHeghtCarbon' name="avgHeghtCarbon">
+                            <option value="" disabled selected>Оберіть середню висоту нагару</option>
+
+                            <?php
+                            $enum_params = mysqli_fetch_assoc(mysqli_query($dbc, "SHOW COLUMNS FROM wood_damage WHERE Field = 'height'"));
+                            preg_match("/^enum\(\'(.*)\'\)$/", $enum_params['Type'], $res);
+                            $enum = explode("','", $res['1']);
+
+                            for ($i = 0; $i < count($enum); $i++) {
+                            ?>
+                                <option value="<?php echo $enum[$i] ?>">
+                                    <?php echo $enum[$i] ?>
+                                </option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+
+                        <label for="avgTreeDiameter"><b>Середній діаметр деревостою</b></label>
+                        <select id='avgTreeDiameter' name="avgTreeDiameter">
+                            <option value="" disabled selected>Оберіть середній діаметр деревостою</option>
+
+                            <?php
+                            $enum_params = mysqli_fetch_assoc(mysqli_query($dbc, "SHOW COLUMNS FROM wood_damage WHERE Field = 'diameter'"));
+                            preg_match("/^enum\(\'(.*)\'\)$/", $enum_params['Type'], $res);
+                            $enum = explode("','", $res['1']);
+
+                            for ($i = 0; $i < count($enum); $i++) {
+                            ?>
+                                <option value="<?php echo $enum[$i] ?>">
+                                    <?php echo $enum[$i] ?>
+                                </option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+
+                        <label for="startPerimeter"><b>Початковий периметр зони загорання, м</b></label>
+                        <input type="number" placeholder="Введіть початковий периметр загорання" name="startPerimeter" required>
+
+
+                        <button id="calculateButton">Розрахувати</button>
                     </div>
-                    <input name="fdate" type="datetime-local" required>
-
-                    <label for="fname"><b>Варіант вводу координат пожежі</b></label>
-                    <select name="inputType" id="inputType">
-                        <option value="" disabled selected>--Оберіть варіант вводу--</option>
-                        <option value="marker">Маркер на мапі</option>
-                        <option value="coordinates">Координати місця винекнення</option>
-                    </select>
-
-                    <label for="latitude"><b>Широта</b></label>
-                    <input type="number" placeholder="Введіть широту" name="latitude" required disabled>
-
-                    <label for="longitude"><b>Довгота</b></label>
-                    <input type="number" placeholder="Введіть довготу" name="longitude" required disabled>
-
-                    <label for="fireType"><b>Вид пожежі</b></label>
-                    <select id="fireType" name="fireType">
-                        <option value="" disabled selected>--Оберіть вид пожежі--</option>
-                        <option value="1">Верховий стійкий</option>
-                        <option value="2">Верховий побіжний</option>
-                        <option value="3">Низовий</option>
-                    </select>
-                    
-                    <label for="burnabilityClass"><b>Клас горимості лісових насаджень</b></label>
-                    <select id="burnabilityClass" name="burnabilityClass">
-                        <option value="" disabled selected>--Оберіть клас горимості--</option>
-                        <option value="1">Чисті і з домішкою листяних порід хвойні насадження (крім модринових)</option>
-                        <option value="2">Чисті з домішкою хвойних порід листяні насадження, а також модринові насадження</option>
-                    </select>
-
-                    <label for="avgHeghtCarbon"><b>Середня висота нагару</b></label>
-                    <select id='avgHeghtCarbon' name="avgHeghtCarbon">
-                        <option value="" disabled selected>Оберіть середню висоту нагару</option>
-
-                        <?php 
-                        $enum_params = mysqli_fetch_assoc(mysqli_query($dbc, "SHOW COLUMNS FROM wood_damage WHERE Field = 'height'"));
-                        preg_match("/^enum\(\'(.*)\'\)$/", $enum_params['Type'], $res);
-                        $enum = explode("','", $res['1']);
-
-                        for($i = 0; $i < count($enum); $i++){
-                    ?>
-                        <option value="<?php echo $enum[$i]?>">
-                            <?php echo $enum[$i] ?>
-                        </option>
-                        <?php  
-                        }
-                    ?>
-                    </select>
-                    
-                    <label for="avgTreeDiameter"><b>Середній діаметр деревостою</b></label>
-                    <select id='avgTreeDiameter' name="avgTreeDiameter">
-                        <option value="" disabled selected>Оберіть середній діаметр деревостою</option>
-
-                        <?php 
-                        $enum_params = mysqli_fetch_assoc(mysqli_query($dbc, "SHOW COLUMNS FROM wood_damage WHERE Field = 'diameter'"));
-                        preg_match("/^enum\(\'(.*)\'\)$/", $enum_params['Type'], $res);
-                        $enum = explode("','", $res['1']);
-
-                        for($i = 0; $i < count($enum); $i++){
-                    ?>
-                        <option value="<?php echo $enum[$i]?>">
-                            <?php echo $enum[$i] ?>
-                        </option>
-                        <?php  
-                        }
-                    ?>
-                    </select>
-
-                    <label for="startPerimeter"><b>Початковий периметр зони загорання, м</b></label>
-                    <input type="number" placeholder="Введіть початковий периметр загорання" name="startPerimeter" required>
-
-
-                    <button id="calculateButton">Розрахувати</button>
                 </div>
-            </div>
+            <?php
+            }
+            ?>
         </section>
         <section id="resultSection">
             <div class="nhr-container container">
@@ -111,13 +117,19 @@
                 <div class="pagePart">
                     <div id="resultTable" class="vertical"></div>
                     <div id="damageTable" class="vertical"></div>
-                    <button id="saveButton" class="save-button">Зберегти розрахунок</button>
+                    <?php
+                    if (!isset($_GET['id_cat'])) {
+                    ?>
+                        <button id="saveButton" class="save-button">Зберегти розрахунок</button>
+                    <?php
+                    }
+                    ?>
                 </div>
             </div>
         </section>
     </div>
 
-    <?php  include('../php/module/footer.php'); ?>
+    <?php include('../php/module/footer.php'); ?>
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/skycons/1396634940/skycons.min.js'></script>
