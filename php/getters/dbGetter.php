@@ -215,26 +215,55 @@
       echo $res["d_class"];
    }
 
-   function getCatList($dbc) {
-      $list =  mysqli_query($dbc,
-         "select cid.id_cat, ct.id_cat_type, u.uname, ct.name, cid.cat_date, cid.zone_pic, f.longitude, f.latitude
-         from cat_initial_data cid
-         left join users u on (cid.user_id = u.user_id)
-         join cat_type ct on (cid.id_cat_type = ct.id_cat_type)
-         join nhr_initial_data nid on (cid.id_cat = nid.id_cat)
-         join factory f on (nid.f_id = f.f_id)
-         union all
-         select cid.id_cat, ct.id_cat_type, u.uname, ct.name, cid.cat_date, cid.zone_pic, eid.longitude, eid.latitude
-         from cat_initial_data cid
-         left join users u on (cid.user_id = u.user_id)
-         join cat_type ct on (cid.id_cat_type = ct.id_cat_type)
-         join earth_initial_data eid on (cid.id_cat = eid.id_cat)
-         union all
-         select cid.id_cat, ct.id_cat_type, u.uname, ct.name, cid.cat_date, cid.zone_pic, fid.longitude, fid.latitude
-         from cat_initial_data cid
-         left join users u on (cid.user_id = u.user_id)
-         join cat_type ct on (cid.id_cat_type = ct.id_cat_type)
-         join fire_initial_data fid on (cid.id_cat = fid.id_cat)");
+   function getCatList($dbc, $data) {
+      $id_cat_type = $data['id_cat_type'];
+      $from_date = $data['from_date'];
+      $to_date = $data['to_date'];
+      
+      $nhr_query = "select cid.id_cat, ct.id_cat_type, u.uname, ct.name, cid.cat_date, cid.zone_pic, f.longitude, f.latitude
+      from cat_initial_data cid
+      left join users u on (cid.user_id = u.user_id)
+      join cat_type ct on (cid.id_cat_type = ct.id_cat_type)
+      join nhr_initial_data nid on (cid.id_cat = nid.id_cat)
+      join factory f on (nid.f_id = f.f_id)";
+
+      $earth_query = "select cid.id_cat, ct.id_cat_type, u.uname, ct.name, cid.cat_date, cid.zone_pic, eid.longitude, eid.latitude
+      from cat_initial_data cid
+      left join users u on (cid.user_id = u.user_id)
+      join cat_type ct on (cid.id_cat_type = ct.id_cat_type)
+      join earth_initial_data eid on (cid.id_cat = eid.id_cat)"; 
+
+      $forest_query = "select cid.id_cat, ct.id_cat_type, u.uname, ct.name, cid.cat_date, cid.zone_pic, fid.longitude, fid.latitude
+      from cat_initial_data cid
+      left join users u on (cid.user_id = u.user_id)
+      join cat_type ct on (cid.id_cat_type = ct.id_cat_type)
+      join fire_initial_data fid on (cid.id_cat = fid.id_cat)"; 
+
+      if(isset($from_date) and isset($to_date)) {
+         $where = " where (cid.cat_date between '" . $from_date ."' and '" . $to_date . "')";
+         $nhr_query = $nhr_query . $where;
+         $earth_query = $earth_query . $where;
+         $forest_query = $forest_query . $where;
+      }
+
+      $req = "";
+
+      switch ($id_cat_type) {
+         case 0:
+            $req = $nhr_query .  " union all " . $earth_query . " union all " . $forest_query;
+            break;
+         case 1:
+            $req = $nhr_query;
+            break;
+         case 2:
+            $req = $earth_query;
+            break;
+         case 3:
+            $req = $forest_query;
+            break;
+     }
+
+      $list =  mysqli_query($dbc, $req);
       
       $rows = array();
       while($row = mysqli_fetch_object($list)) {

@@ -62,7 +62,7 @@
     }
 
     if($_GET["func"] == "cat_list"){
-        echo getCatList($dbc);
+        echo getCatList($dbc, $data);
     }
 
     if($_GET["func"] == "getNhrData"){
